@@ -322,3 +322,43 @@ Func chkBoostBarracksHoursE2()
 	Sleep(300)
 	GUICtrlSetState($chkBoostBarracksHoursE2, $GUI_UNCHECKED)
 EndFunc   ;==>chkBoostBarracksHoursE2
+
+; MOD function ; MMHK ; Offline while training
+
+Func chkTrainOffline() ; MMHK While Training
+
+	If GUICtrlRead($chkTrainOffline) = $GUI_CHECKED Then
+		$bTrainOffline = True
+		GUICtrlSetState($txtMinTime, $GUI_ENABLE)
+		GUICtrlSetState($chkDisconnectedNaturally, $GUI_ENABLE)
+		GUICtrlSetState($txtExtraTime, $GUI_ENABLE)
+	Else
+		$bTrainOffline = False
+		GUICtrlSetState($txtMinTime, $GUI_DISABLE)
+		GUICtrlSetState($chkDisconnectedNaturally, $GUI_DISABLE)
+		GUICtrlSetState($txtExtraTime, $GUI_DISABLE)
+	EndIf
+
+EndFunc   ;==>chkTrainOffline
+
+Func txtMinTime() ; MMHK While Training
+
+	$iMinTime = GUICtrlRead($txtMinTime)
+
+EndFunc   ;==>txtMinTime
+
+Func chkDisconnectedNaturally() ; MMHK While Training
+
+	If GUICtrlRead($chkDisconnectedNaturally) = $GUI_CHECKED Then
+		$bDisconnectedNaturally = True
+	Else
+		$bDisconnectedNaturally = False
+	EndIf
+
+EndFunc   ;==>chkDisconnectedNaturally
+
+Func txtExtraTime() ; MMHK While Training
+
+	$iExtraTime = GUICtrlRead($txtExtraTime)
+
+EndFunc   ;==>txtExtraTime

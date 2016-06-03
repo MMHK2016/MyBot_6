@@ -146,8 +146,8 @@ Global $chkAttackWeekdays1, $chkAttackWeekdays2, $chkAttackWeekdays3, $chkAttack
 		$lbattackHoursPM = GUICtrlCreateLabel(GetTranslated(603,4, "PM"), $x + 10, $y)
 
 	Local $x = 257 , $y = 42
-	$grpAttDSched = GUICtrlCreateGroup(GetTranslated(603,31, "Only during these day of week"), $x - 10, $y, 166, 55)
-	$x -= 12
+	$grpAttDSched = GUICtrlCreateGroup(GetTranslated(603,31, "Only during these day of week"), $x - 25, $y, 160, 55) ; MMHK
+	$x -= 27 ; MMHK
 	$y += 17
 	$lbAttackWeekdays1 = GUICtrlCreateLabel(GetTranslated(603,16, "Su"), $x + 30, $y, 13, 15)
 	GUICtrlSetTip(-1, GetTranslated(603,17, "Sunday"))
@@ -163,6 +163,10 @@ Global $chkAttackWeekdays1, $chkAttackWeekdays2, $chkAttackWeekdays3, $chkAttack
 	GUICtrlSetTip(-1, GetTranslated(603,27, "Friday"))
 	$lbAttackWeekdays7 = GUICtrlCreateLabel(GetTranslated(603,28, "Sa"), $x + 120, $y, 13, 15)
 	GUICtrlSetTip(-1, GetTranslated(603,29, "Saturday"))
+
+	$lbAttackExit = GUICtrlCreateLabel("Exit", $x + 170, $y) ; MMHK
+	GUICtrlSetTip(-1, "Close emulater outside of scheduled attack hours." & @CRLF & "Restart emulater when it is back in.")
+
 	$y += 13
 	$chkAttackWeekdays0 = GUICtrlCreateCheckbox("", $x + 30, $y, 15, 15)
 	GUICtrlSetState(-1, $GUI_CHECKED)
@@ -178,6 +182,10 @@ Global $chkAttackWeekdays1, $chkAttackWeekdays2, $chkAttackWeekdays3, $chkAttack
 	GUICtrlSetState(-1, $GUI_CHECKED)
 	$chkAttackWeekdays6 = GUICtrlCreateCheckbox("", $x + 120, $y, 15, 15)
 	GUICtrlSetState(-1, $GUI_CHECKED)
+
+	$chkAttackExit = GUICtrlCreateCheckbox("", $x + 172, $y, 15, 15) ; MMHK
+	GUICtrlSetState(-1, $GUI_UNCHECKED)
+	GUICtrlSetOnEvent(-1, "chkAttackExit")
 
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 

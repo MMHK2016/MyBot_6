@@ -250,3 +250,12 @@
 #include "functions\Village\UpgradeHeroes.au3"
 #include "functions\Village\ClanLevel.au3"
 #include "functions\Village\StarBonus.au3"
+
+; MOD function ; MMHK
+; Close the emulator when attacks not scheduled
+#include "functions\MOD\_SleepStatus2.au3"
+#include "functions\MOD\_TicksToDay.au3"
+#include "functions\MOD\_TimeToNextScheduled.au3"
+; Offline while training
+#include "functions\MOD\getRemainTrainTime.au3"
+

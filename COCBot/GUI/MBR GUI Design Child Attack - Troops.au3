@@ -165,6 +165,36 @@ Local $x = $xStart + 20, $y = $yStart +  75 + 25
 			GUICtrlSetState(-1, $GUI_HIDE)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
+; MOD ; MMHK ; Offline while training ; not use GetTranslated coz official will get ride of them
+Local $x = $xStart + 5, $y = $yStart + 316
+	$grpMisc = GUICtrlCreateGroup("While Training", $x, $y, 428, 43)
+		$x += 8
+		$y += 17
+		$chkTrainOffline = GUICtrlCreateCheckbox("Stay offline, if longer than", $x, $y, -1, -1)
+			GUICtrlSetTip(-1, "Close COC till training finished.")
+			GUICtrlSetOnEvent(-1, "chkTrainOffline")
+		$txtMinTime = GUICtrlCreateInput("2", $x + 138, $y + 2, 30, 16, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+			GUICtrlSetTip(-1, "Close COC when troops training time is longer than this number.")
+			GUICtrlSetLimit(-1, 2)
+			GUICtrlSetState(-1,$GUI_DISABLE)
+			GUICtrlSetOnEvent(-1, "txtMinTime")
+	    $lblMinTime = GUICtrlCreateLabel("Min.", $x + 171, $y + 4, -1, -1)
+		$x += 202
+	    $lblExtraTime = GUICtrlCreateLabel("Add extra random", $x, $y + 4, -1, -1)
+		$txtExtraTime = GUICtrlCreateInput("0", $x + 86, $y + 2, 30, 16, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+			GUICtrlSetTip(-1, "Add max random extra offline time.")
+			GUICtrlSetLimit(-1, 2)
+			GUICtrlSetState(-1,$GUI_DISABLE)
+			GUICtrlSetOnEvent(-1, "txtExtraTime")
+	    $lblExtraTime = GUICtrlCreateLabel("Min,", $x + 119, $y + 4, -1, -1)
+		$x += 152
+		$chkDisconnectedNaturally = GUICtrlCreateCheckbox("Inactivity", $x, $y, -1, -1)
+			GUICtrlSetTip(-1, "Disconnect COC naturally sometimes.")
+			GUICtrlSetState(-1,$GUI_DISABLE)
+			GUICtrlSetOnEvent(-1, "chkDisconnectedNaturally")
+    GUICtrlCreateGroup("", -99, -99, 1, 1)
+
+
 Local $x = $xStart +  160 + 5, $y = $yStart +  45
 	$grpRaidComp = GUICtrlCreateGroup(GetTranslated(621,19, "Army Strength"), $x - 15, $y - 20, 139, 50)
 		$y += 5

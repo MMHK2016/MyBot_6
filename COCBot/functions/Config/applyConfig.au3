@@ -682,6 +682,30 @@ Func applyConfig($bRedrawAtExit = True) ;Applies the data from config to the con
 	GUICtrlSetData($txtFullTroop, $fulltroop)
 	;barracks boost not saved (no use)
 
+	; MOD ; MMHK
+	; Offline while training ---------------------------------------------------------------
+	If ($bTrainOffline) Then
+		GUICtrlSetState($chkTrainOffline, $GUI_CHECKED)
+		GUICtrlSetState($txtMinTime, $GUI_ENABLE)
+		GUICtrlSetState($chkDisconnectedNaturally, $GUI_ENABLE)
+		GUICtrlSetState($txtExtraTime, $GUI_ENABLE)
+	Else
+		GUICtrlSetState($chkTrainOffline, $GUI_UNCHECKED)
+		GUICtrlSetState($txtMinTime, $GUI_DISABLE)
+		GUICtrlSetState($chkDisconnectedNaturally, $GUI_DISABLE)
+		GUICtrlSetState($txtExtraTime, $GUI_DISABLE)
+	EndIf
+
+	GUICtrlSetData($txtMinTime, $iMinTime)
+
+	If ($bDisconnectedNaturally) Then
+		GUICtrlSetState($chkDisconnectedNaturally, $GUI_CHECKED)
+	Else
+		GUICtrlSetState($chkDisconnectedNaturally, $GUI_UNCHECKED)
+	EndIf
+
+	GUICtrlSetData($txtExtraTime, $iExtraTime)
+
 	; Spells Creation  ---------------------------------------------------------------------
 	GUICtrlSetData($txtNumLightningSpell, $iLightningSpellComp)
 	GUICtrlSetData($txtNumRageSpell, $iRageSpellComp)
@@ -829,7 +853,7 @@ Func applyConfig($bRedrawAtExit = True) ;Applies the data from config to the con
 		EndIf
 	Next
 
-	For $i = 0 To 7
+	For $i = 0 To 6 ; MMHK
 		If $iPlannedAttackWeekDays[$i] = 1 Then
 			GUICtrlSetState(Eval("chkAttackWeekdays" & $i), $GUI_CHECKED)
 		Else
@@ -837,6 +861,11 @@ Func applyConfig($bRedrawAtExit = True) ;Applies the data from config to the con
 		EndIf
 	Next
 
+	If ($bAttackExit) Then ; MMHK
+		GUICtrlSetState($chkAttackExit, $GUI_CHECKED)
+	Else
+		GUICtrlSetState($chkAttackExit, $GUI_UNCHECKED)
+	EndIf
 
 	GUICtrlSetData($txtSWTTiles, $itxtSWTtiles)
 	;ChkSnipeWhileTrain()

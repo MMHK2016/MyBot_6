@@ -1,0 +1,18 @@
+* **V6.1.1.MMHK.v6.2.0**
+ * Add offline when training - multiple times randomly and options to
+		only sleep if longer than some minutes,
+		disconnected naturally sometimes,
+		max extra offline time, randomly,
+		incoporates Full Camp percentage
+ * Fix problem clicking donate button in the clan chat
+ * Update Mod Title
+ * Update Logo
+
+* **V6.1.1.MMHK.v6.1.0**
+ * Add Close the emulator according to Attack Schedular and random extra minutes
+ * Fix encoding from western 1252 to UTF-8 or not compile
+ * Fix wrong array size PlannedAttack
+ * Fix same array save config wrongly - an extra delimiter - all hours planned section
+ * Fix read config wrong default - all hours planned section
+ * Fix wrong apply config size
+ * Update Mod Title

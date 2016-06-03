@@ -279,6 +279,14 @@ Func chkattackHoursE2()
 	GUICtrlSetState($chkattackHoursE2, $GUI_UNCHECKED)
 EndFunc   ;==>chkattackHoursE2
 
+Func chkAttackExit() ; MMHK
+	If GUICtrlRead($chkAttackExit) = $GUI_CHECKED Then
+		$bAttackExit = True
+	Else
+		$bAttackExit = False
+	EndIf
+EndFunc   ;==>chkAttackExit
+
 Func chkShareAttack()
 	If GUICtrlRead($chkShareAttack) = $GUI_CHECKED Then
 		For $i = $lblShareMinGold To $txtShareMessage

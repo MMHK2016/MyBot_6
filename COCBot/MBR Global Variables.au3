@@ -1111,12 +1111,14 @@ Global $iPlannedattackHours[24]
 For $i = 0 To 23
 	$iPlannedattackHours[$i] = 1
 Next
-Global $iPlannedAttackWeekDays[8]
-For $i = 0 To 7
+Global $iPlannedAttackWeekDays[7] ; MMHK
+For $i = 0 To 6 ; MMHK
 	$iPlannedAttackWeekDays[$i] = 1
 Next
 Global $hourLoot
 Global $fullArmy1 = False
+
+Global $bAttackExit = False ; MMHK
 
 ; Share attack
 Global $iShareAttack = 0
@@ -1459,3 +1461,7 @@ Global $THSnipeBeforeDBTiles = 0 , $THSnipeBeforeLBTiles = 0
 Global $THSnipeBeforeDBScript = 0 , $THSnipeBeforeLBScript = 0
 
 
+; MOD Variables ; MMHK
+; Offline while training
+Global $bTrainOffline = False, $bDisconnectedNaturally = False
+Global $iTrainOfflineTime = 0, $iMinTime = 2, $iExtraTime = 0 ; minutes

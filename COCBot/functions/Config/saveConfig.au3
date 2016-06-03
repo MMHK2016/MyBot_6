@@ -1831,6 +1831,24 @@ Func saveConfig() ;Saves the controls settings to the config
 
 	;barracks boost not saved (no use)
 
+	; MOD ; MMHK
+	; Offline while training ---------------------------------------------------------------
+	If GUICtrlRead($chkTrainOffline) = $GUI_CHECKED Then
+		IniWrite($config, "troop", "TrainOffline", 1)
+	Else
+		IniWrite($config, "troop", "TrainOffline", 0)
+    EndIf
+
+	IniWrite($config, "troop", "MinTime", GUICtrlRead($txtMinTime))
+
+	If GUICtrlRead($chkDisconnectedNaturally) = $GUI_CHECKED Then
+		IniWrite($config, "troop", "DisconnectedNaturally", 1)
+	Else
+		IniWrite($config, "troop", "DisconnectedNaturally", 0)
+    EndIf
+
+	IniWrite($config, "troop", "ExtraTime", GUICtrlRead($txtExtraTime))
+
 	; Spells Creation  ---------------------------------------------------------------------
 	IniWriteS($config, "Spells", "LightningSpell", GUICtrlRead($txtNumLightningSpell))
 	IniWriteS($config, "Spells", "RageSpell", GUICtrlRead($txtNumRageSpell))
@@ -2033,9 +2051,17 @@ Func saveConfig() ;Saves the controls settings to the config
 	Local $string = ""
 	For $i = 0 To 23
 		If GUICtrlRead(Eval("chkDonateHours" & $i)) = $GUI_CHECKED Then
-			$string &= "1|"
+			If $i < 23 then
+				$string &= "1|"
+			else
+				$string &= "1"
+			EndIf; MMHK
 		Else
-			$string &= "0|"
+			If $i < 23 then
+				$string &= "0|"
+			else
+				$string &= "0"
+			EndIf; MMHK
 		EndIf
 	Next
 	IniWriteS($config, "planned", "DonateHours", $string)
@@ -2043,9 +2069,17 @@ Func saveConfig() ;Saves the controls settings to the config
 	Local $string = ""
 	For $i = 0 To 23
 		If GUICtrlRead(Eval("chkRequestCCHours" & $i)) = $GUI_CHECKED Then
-			$string &= "1|"
+			If $i < 23 then
+				$string &= "1|"
+			else
+				$string &= "1"
+			EndIf; MMHK
 		Else
-			$string &= "0|"
+			If $i < 23 then
+				$string &= "0|"
+			else
+				$string &= "0"
+			EndIf; MMHK
 		EndIf
 	Next
 	IniWriteS($config, "planned", "RequestHours", $string)
@@ -2053,9 +2087,17 @@ Func saveConfig() ;Saves the controls settings to the config
 	Local $string = ""
 	For $i = 0 To 23
 		If GUICtrlRead(Eval("chkDropCCHours" & $i)) = $GUI_CHECKED Then
-			$string &= "1|"
+			If $i < 23 then
+				$string &= "1|"
+			else
+				$string &= "1"
+			EndIf; MMHK
 		Else
-			$string &= "0|"
+			If $i < 23 then
+				$string &= "0|"
+			else
+				$string &= "0"
+			EndIf; MMHK
 		EndIf
 	Next
 	IniWriteS($config, "planned", "DropCCHours", $string)
@@ -2063,9 +2105,17 @@ Func saveConfig() ;Saves the controls settings to the config
 	Local $string = ""
 	For $i = 0 To 23
 		If $iPlannedBoostBarracksHours[$i] = 1 Then
-			$string &= "1|"
+			If $i < 23 then
+				$string &= "1|"
+			else
+				$string &= "1"
+			EndIf; MMHK
 		Else
-			$string &= "0|"
+			If $i < 23 then
+				$string &= "0|"
+			else
+				$string &= "0"
+			EndIf; MMHK
 		EndIf
 	Next
 	IniWriteS($config, "planned", "BoostBarracksHours", $string)
@@ -2073,22 +2123,44 @@ Func saveConfig() ;Saves the controls settings to the config
 	Local $string = ""
 	For $i = 0 To 23
 		If GUICtrlRead(Eval("chkattackHours" & $i)) = $GUI_CHECKED Then
-			$string &= "1|"
+			If $i < 23 then
+				$string &= "1|"
+			else
+				$string &= "1"
+			EndIf; MMHK
 		Else
-			$string &= "0|"
+			If $i < 23 then
+				$string &= "0|"
+			else
+				$string &= "0"
+			EndIf; MMHK
 		EndIf
 	Next
 	IniWriteS($config, "planned", "attackHours", $string)
 
 	Local $string = ""
-	For $i = 0 To 7
+	For $i = 0 To 6 ; MMHK
 		If GUICtrlRead(Eval("chkAttackWeekdays" & $i)) = $GUI_CHECKED Then
-			$string &= "1|"
+			If $i < 6 then
+				$string &= "1|"
+			else
+				$string &= "1"
+			EndIf; MMHK
 		Else
-			$string &= "0|"
+			If $i < 6 then
+				$string &= "0|"
+			else
+				$string &= "0"
+			EndIf; MMHK
 		EndIf
 	Next
 	IniWriteS($config, "planned", "attackDays", $string)
+
+	If GUICtrlRead($chkAttackExit) = $GUI_CHECKED Then ; MMHK
+		IniWriteS($config, "planned", "AttackExit", 1)
+	Else
+		IniWriteS($config, "planned", "AttackExit", 0)
+	EndIf
 
 	;Share Attack Settings----------------------------------------
 	IniWriteS($config, "shareattack", "minGold", $iShareminGold)

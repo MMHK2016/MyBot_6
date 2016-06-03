@@ -179,6 +179,24 @@ Func readConfig($inputfile = $config, $partial = False) ;Reads config and sets i
 
 		IniReadS($isldTrainITDelay, $config, "other", "TrainITDelay", "20")
 
+		; MOD ; MMHK
+		; Offline while training ---------------------------------------------------------------
+		If IniRead($config, "troop", "TrainOffline", "0") = 1 Then
+			$bTrainOffline = True
+		Else
+			$bTrainOffline = False
+		EndIf
+
+		$iMinTime = IniRead($config, "troop", "MinTime", "2")
+
+		If IniRead($config, "troop", "DisconnectedNaturally", "0") = 1 Then
+			$bDisconnectedNaturally = True
+		Else
+			$bDisconnectedNaturally = False
+		EndIf
+
+		$iExtraTime = IniRead($config, "troop", "ExtraTime", "0")
+
 		;Army training - Spells Creation  -----------------------------------------------------
 		Local $tempQtaSpell
 		IniReadS($iLightningSpellComp, $config, "Spells", "LightningSpell", "0")
@@ -650,16 +668,23 @@ Func readConfig($inputfile = $config, $partial = False) ;Reads config and sets i
 		EndIf
 
 		; Hours Planned
-		$iPlannedDonateHours = StringSplit(IniRead($config, "planned", "DonateHours", "1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1"), "|", $STR_NOCOUNT)
-		$iPlannedRequestCCHours = StringSplit(IniRead($config, "planned", "RequestHours", "1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1"), "|", $STR_NOCOUNT)
-		$iPlannedDropCCHours = StringSplit(IniRead($config, "planned", "DropCCHours", "1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1"), "|", $STR_NOCOUNT)
+		$iPlannedDonateHours = StringSplit(IniRead($config, "planned", "DonateHours", "1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1"), "|", $STR_NOCOUNT) ; MMHK
+		$iPlannedRequestCCHours = StringSplit(IniRead($config, "planned", "RequestHours", "1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1"), "|", $STR_NOCOUNT) ; MMHK
+		$iPlannedDropCCHours = StringSplit(IniRead($config, "planned", "DropCCHours", "1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1"), "|", $STR_NOCOUNT) ; MMHK
 		$iPlannedDonateHoursEnable = IniRead($config, "planned", "DonateHoursEnable", "0")
 		$iPlannedRequestCCHoursEnable = IniRead($config, "planned", "RequestHoursEnable", "0")
 		$iPlannedDropCCHoursEnable = IniRead($config, "planned", "DropCCEnable", "0")
 		$iPlannedBoostBarracksEnable = IniRead($config, "planned", "BoostBarracksHoursEnable", "0")
-		$iPlannedBoostBarracksHours = StringSplit(IniRead($config, "planned", "BoostBarracksHours", "1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1"), "|", $STR_NOCOUNT)
-		$iPlannedattackHours = StringSplit(IniRead($config, "planned", "attackHours", "1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1"), "|", $STR_NOCOUNT)
-		$iPlannedAttackWeekDays = StringSplit(IniRead($config, "planned", "attackDays", "1|1|1|1|1|1|1|1"), "|", $STR_NOCOUNT)
+		$iPlannedBoostBarracksHours = StringSplit(IniRead($config, "planned", "BoostBarracksHours", "1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1"), "|", $STR_NOCOUNT) ; MMHK
+		$iPlannedattackHours = StringSplit(IniRead($config, "planned", "attackHours", "1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1"), "|", $STR_NOCOUNT) ; MMHK
+		$iPlannedAttackWeekDays = StringSplit(IniRead($config, "planned", "attackDays", "1|1|1|1|1|1|1|"), "|", $STR_NOCOUNT) ; MMHK
+
+		If IniRead($config, "planned", "AttackExit", "0") = 1 Then ; MMHK
+			$bAttackExit = True
+		Else
+			$bAttackExit = False
+		EndIf
+
 		;InireadS(xxxx,$config, "attack", "xxxx", "0")
 		;InireadS(xxxx,$config, "attack", "xxxx", "0")
 		;InireadS(xxxx,$config, "attack", "xxxx", "0")

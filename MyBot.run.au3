@@ -10,7 +10,6 @@
 ; Example .......: No
 ; ===============================================================================================================================
 
-
 #RequireAdmin
 #AutoIt3Wrapper_UseX64=7n
 #include <WindowsConstants.au3>
@@ -21,8 +20,8 @@
 #pragma compile(FileDescription, Clash of Clans Bot - A Free Clash of Clans bot - https://mybot.run)
 #pragma compile(ProductName, My Bot)
 
-#pragma compile(ProductVersion, 6.1)
-#pragma compile(FileVersion, 6.1)
+#pragma compile(ProductVersion, 6.0)
+#pragma compile(FileVersion, 6.0)
 #pragma compile(LegalCopyright, © https://mybot.run)
 #pragma compile(Out, MyBot.run.exe)  ; Required
 
@@ -47,15 +46,12 @@ EndIf
 #include "COCBot\MBR Global Variables.au3"
 #include "COCBot\functions\Config\ScreenCoordinates.au3"
 
+$sModVersion = "MMHK v6.2.0" ; MMHK
 $sBotVersion = "v6.1.1" ;~ Don't add more here, but below. Version can't be longer than vX.y.z because it it also use on Checkversion()
-$sBotTitle = "My Bot " & $sBotVersion & " " ;~ Don't use any non file name supported characters like \ / : * ? " < > |
+$sBotTitle = "My Bot " & $sBotVersion & " " & $sModVersion & " " ; MMHK ;~ Don't use any non file name supported characters like \ / : * ? " < > |
 
 Opt("WinTitleMatchMode", 3) ; Window Title exact match mode
 #include "COCBot\functions\Android\Android.au3"
-
-;multilanguage
-#include "COCBot\functions\Other\Multilanguage.au3"
-DetectLanguage()
 
 If $aCmdLine[0] < 2 Then
 	DetectRunningAndroid()
@@ -97,6 +93,10 @@ EndIf
 $hMutex_MyBot = _Singleton("MyBot.run", 1)
 $OnlyInstance = $hMutex_MyBot <> 0 ; And False
 SetDebugLog("My Bot is " & ($OnlyInstance ? "" : "not ") & "the only running instance")
+
+;multilanguage
+#include "COCBot\functions\Other\Multilanguage.au3"
+DetectLanguage()
 
 #include "COCBot\MBR GUI Design.au3"
 #include "COCBot\MBR GUI Control.au3"
@@ -198,9 +198,9 @@ Func runBot() ;Bot that runs everything in order
 			$Quickattack = QuickAttack()
 		EndIf
 
-	    If checkAndroidTimeLag() = True Then ContinueLoop
+		If checkAndroidTimeLag() = True Then ContinueLoop
 		If $Is_ClientSyncError = False And $Is_SearchLimit = False and ($Quickattack = False ) Then
-	    	If BotCommand() Then btnStop()
+			If BotCommand() Then btnStop()
 			If _Sleep($iDelayRunBot2) Then Return
 			checkMainScreen(False)
 			If $Restart = True Then ContinueLoop
@@ -241,12 +241,12 @@ Func runBot() ;Bot that runs everything in order
 					_RunFunction($Random1[0])
 					ExitLoop
 				EndIf
-			    If $Restart = True Then ContinueLoop 2 ; must be level 2 due to loop-in-loop
+				If $Restart = True Then ContinueLoop 2 ; must be level 2 due to loop-in-loop
 			WEnd
 			If $RunState = False Then Return
 			If $Restart = True Then ContinueLoop
 			If GotoAttack() Then
-			   Local $Random1[10] = ['ReplayShare', 'ReportNotify', 'DonateCC,Train', 'BoostBarracks', 'BoostSpellFactory', 'BoostDarkSpellFactory', 'BoostKing', 'BoostQueen', 'BoostWarden', 'RequestCC']
+			   Local $Random1[11] = ['ReplayShare', 'ReportNotify', 'DonateCC', 'Train', 'BoostBarracks', 'BoostSpellFactory', 'BoostDarkSpellFactory', 'BoostKing', 'BoostQueen', 'BoostWarden', 'RequestCC']
 			   While 1
 				   If $RunState = False Then Return
 				   If $Restart = True Then ContinueLoop 2 ; must be level 2 due to loop-in-loop
@@ -306,10 +306,15 @@ Func runBot() ;Bot that runs everything in order
 				  If $Restart = True Then ContinueLoop
 			   EndIf
 			Else
-			   SetLog("Attacking Not Planned, Skipped.., So Waiting", $COLOR_RED)
-			   If _SleepStatus($iDelayWaitAttack) Then Return False
+			   If PlannedExit() Then  ; MOD ; MMHK ; Close the emulator when attacks not scheduled
+					If _Sleep($iDelayRunBot1) Then Return
+					If $Restart = True Then ContinueLoop
+			   Else
+					SetLog("Attacking Not Planned, Skipped.., So Waiting", $COLOR_RED)
+					If _SleepStatus($iDelayWaitAttack) Then Return False
+			   EndIf
 			EndIf
-	    Else ;When error occours directly goes to attack
+		Else ;When error occours directly goes to attack
 			If $Quickattack Then
 				Setlog("Quick Restart... ",$color_blue)
 			Else
@@ -347,6 +352,26 @@ Func Idle() ;Sequence that runs until Full Army
 		If $RequestScreenshot = 1 Then PushMsg("RequestScreenshot")
 		If _Sleep($iDelayIdle1) Then Return
 		If $CommandStop = -1 Then SetLog("====== Waiting for full army ======", $COLOR_GREEN)
+
+		; MOD ; MMHK ; Stay offline while training troops
+		If ($bTrainOffline) Then
+			$iTrainOfflineTime = Ceiling($iTrainOfflineTime * $fulltroop / 100) ; incoporates the full camp %
+			If $iTrainOfflineTime > $iMinTime Then
+				If ($bDisconnectedNaturally) And ($iTrainOfflineTime > 5) And Random(0, 1, 1) Then ; has to be longer than default idle time, randomly too
+					$iTrainOfflineTime += Random(0, $iExtraTime, 1) ; add random max extra time
+					SetLog("COC will be inactive for " & $iTrainOfflineTime & " minutes...", $COLOR_ORANGE)
+					If _SleepStatus($iTrainOfflineTime * 60000) Then Return
+					CloseCOC(True) ; kill then open
+				Else
+					$iTrainOfflineTime += Random(0, $iExtraTime, 1) ; add random max extra time
+					SetLog("COC will be closed for " & $iTrainOfflineTime & " minutes...", $COLOR_ORANGE)
+					CloseCOC()
+					If _SleepStatus($iTrainOfflineTime * 60000) Then Return
+					OpenCOC()
+				EndIf
+			EndIf
+	    EndIf
+
 		Local $hTimer = TimerInit()
 		Local $iReHere = 0
 
@@ -372,7 +397,7 @@ Func Idle() ;Sequence that runs until Full Army
 		CleanYard()
 		If $Restart = True Then ExitLoop
 		If $iCollectCounter > $COLLECTATCOUNT Then ; This is prevent from collecting all the time which isn't needed anyway
- 			Local $Random1[2] = ['Collect', 'DonateCC']
+			Local $Random1[2] = ['Collect', 'DonateCC']
 			While 1
 				If $RunState = False Then Return
 				If $Restart = True Then ExitLoop
@@ -439,7 +464,7 @@ EndFunc   ;==>Idle
 Func AttackMain() ;Main control for attack functions
 	;LoadAmountOfResourcesImages() ; for debug
 	If GotoAttack() Then
-		If (IsSearchModeActive($DB) And checkCollectors(True, False)) or IsSearchModeActive($LB) or IsSearchModeActive($TS) Then
+		If IsSearchModeActive($DB) or IsSearchModeActive($LB) or IsSearchModeActive($TS) Then
 			If $iChkUseCCBalanced = 1 or $iChkUseCCBalancedCSV = 1 Then ;launch profilereport() only if option balance D/R it's activated
 				ProfileReport()
 				If _Sleep($iDelayAttackMain1) Then Return
@@ -471,11 +496,15 @@ Func AttackMain() ;Main control for attack functions
 				If _Sleep($iDelayAttackMain2) Then Return
 			Return True
 		Else
-			Setlog("No one of search condition match: (wait troops and/or heroes according to search settings)", $COLOR_BLUE)
-			Setlog(" - wait troops and/or heroes according to search settings", $COLOR_BLUE)
+			Setlog("No one of search condition match, attack skipped ...", $COLOR_BLUE)
 		EndIf
 	Else
-		SetLog("Attacking Not Planned, Skipped..", $COLOR_RED)
+		If PlannedExit() Then  ; MOD ; MMHK ; Close the emulator when attacks not scheduled
+			If _Sleep($iDelayRunBot1) Then Return
+			If $Restart = True Then Return
+		Else
+			SetLog("Attacking Not Planned, Skipped..", $COLOR_RED)
+		EndIf
 	EndIf
 EndFunc   ;==>AttackMain
 
@@ -544,6 +573,32 @@ Func GotoAttack()
 
 EndFunc   ;==>GotoAttack
 
+Func PlannedExit() ; MOD ; MMHK ; Close the emulator when attacks not scheduled
+
+	If Not ($bAttackExit) Then Return False 	; exit unchecked
+
+	Local $iTimeToNext = _TimeToNextScheduled($iPlannedAttackWeekDays,$iPlannedattackHours) + Random(0, 15, 1) * 60 * 1000
+
+	If $iTimeToNext = 0 Then Return False 		; all unchecked of day or hour; all checked current day and hour
+
+	Local $iDay, $iHour, $iMin, $iSec
+	_TicksToDay($iTimeToNext, $iDay, $iHour, $iMin, $iSec)
+
+	$sSleepTime = StringFormat("%2u Days %02u:%02u:%02u", $iDay, $iHour, $iMin, $iSec)
+	SetLog("Close Emulater as planned for ... " & $sSleepTime & " ...", $COLOR_BLUE)
+	If _Sleep($iDelayRunBot1) Then Return
+
+	CloseCOC()
+	If _Sleep($iDelayRunBot1) Then Return
+
+	CloseAndroid()
+	If _SleepStatus2($iTimeToNext) Then Return True	; sleep
+
+	OpenAndroid(True)
+	Return True
+
+EndFunc   ;==>PlannedExit
+
 Func _RunFunction($action)
 	SetDebugLog("_RunFunction: " & $action & " BEGIN")
 	Switch $action
@@ -565,9 +620,7 @@ Func _RunFunction($action)
 		Case "DonateCC"
 			DonateCC()
 			If _Sleep($iDelayRunBot1) = False Then checkMainScreen(False)
-		Case "DonateCC,Train"
-			DonateCC()
-			If _Sleep($iDelayRunBot1) = False Then checkMainScreen(False)
+		Case "Train"
 			Train()
 			_Sleep($iDelayRunBot1)
 		Case "BoostBarracks"
@@ -594,10 +647,6 @@ Func _RunFunction($action)
 		Case "UpgradeBuilding"
 			UpgradeBuilding()
 			_Sleep($iDelayRunBot3)
-		Case ""
-			SetDebugLog("Function call doesn't support empty string, please review array size", $COLOR_RED)
-		Case Else
-			SetLog("Unknown function call: " & $action, $COLOR_RED)
 	EndSwitch
 	SetDebugLog("_RunFunction: " & $action & " END")
 EndFunc   ;==>_RunFunction
