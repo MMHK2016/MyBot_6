@@ -1,3 +1,11 @@
+* **V6.1.1.MMHK.v6.3.0**
+ * Upgrade MyBot v6.1.2.1
+ * Add Smart Zap thks to @LunaEclipse, @cutidudz
+ * Improve match found tray tip with profile name and search # displayed
+ * Fix mod version label then discard it
+ * Update all close message to color purple
+ * Update Mod Title
+
 * **V6.1.1.MMHK.v6.2.0**
  * Add offline when training - multiple times randomly and options to
 		only sleep if longer than some minutes,
