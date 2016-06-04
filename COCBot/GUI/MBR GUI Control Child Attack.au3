@@ -279,14 +279,6 @@ Func chkattackHoursE2()
 	GUICtrlSetState($chkattackHoursE2, $GUI_UNCHECKED)
 EndFunc   ;==>chkattackHoursE2
 
-Func chkAttackExit() ; MMHK
-	If GUICtrlRead($chkAttackExit) = $GUI_CHECKED Then
-		$bAttackExit = True
-	Else
-		$bAttackExit = False
-	EndIf
-EndFunc   ;==>chkAttackExit
-
 Func chkShareAttack()
 	If GUICtrlRead($chkShareAttack) = $GUI_CHECKED Then
 		For $i = $lblShareMinGold To $txtShareMessage
@@ -336,3 +328,50 @@ EndFunc   ;==>chkSearchReduction
 		; GUISetState(@SW_HIDE, $radUseLBAttack)
 	; EndIf
 ; EndFunc   ;==>chkBullyMode
+
+; MOD ; MMHK
+; Close the emulator when attacks not scheduled ------------------------------------------------------------------------------
+Func chkAttackExit()
+	If GUICtrlRead($chkAttackExit) = $GUI_CHECKED Then
+		$bAttackExit = True
+	Else
+		$bAttackExit = False
+	EndIf
+EndFunc   ;==>chkAttackExit
+
+; Smart Zap ------------------------------------------------------------------------------------------------------------------
+Func chkSmartLightSpell()
+	If  GUICtrlRead($chkSmartLightSpell) = $GUI_CHECKED Then
+		GUICtrlSetState($chkSmartZapDB, $GUI_ENABLE)
+		GUICtrlSetState($chkSmartZapSaveHeroes, $GUI_ENABLE)
+		GUICtrlSetState($txtMinDark, $GUI_ENABLE)
+		GUICtrlSetState($lblSmartZap, $GUI_ENABLE)
+		$ichkSmartZap = 1
+	Else
+		GUICtrlSetState($chkSmartZapDB, $GUI_DISABLE)
+		GUICtrlSetState($chkSmartZapSaveHeroes, $GUI_DISABLE)
+		GUICtrlSetState($txtMinDark, $GUI_DISABLE)
+		GUICtrlSetState($lblSmartZap, $GUI_DISABLE)
+		$ichkSmartZap = 0
+	EndIf
+ EndFunc   ;==>chkSmartLightSpell
+
+Func chkSmartZapDB()
+	If GUICtrlRead($chkSmartZapDB) = $GUI_CHECKED Then
+		$ichkSmartZapDB = 1
+	Else
+		$ichkSmartZapDB = 0
+	EndIf
+ EndFunc   ;==>chkSmartZapDB
+
+Func chkSmartZapSaveHeroes()
+	If GUICtrlRead($chkSmartZapSaveHeroes) = $GUI_CHECKED Then
+		$ichkSmartZapSaveHeroes = 1
+	Else
+		$ichkSmartZapSaveHeroes = 0
+	EndIf
+ EndFunc   ;==>chkSmartZapSaveHeroes
+
+Func txtMinDark()
+	$itxtMinDE = GUICtrlRead($txtMinDark)
+EndFunc   ;==>txtMinDark

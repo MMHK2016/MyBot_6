@@ -682,30 +682,6 @@ Func applyConfig($bRedrawAtExit = True) ;Applies the data from config to the con
 	GUICtrlSetData($txtFullTroop, $fulltroop)
 	;barracks boost not saved (no use)
 
-	; MOD ; MMHK
-	; Offline while training ---------------------------------------------------------------
-	If ($bTrainOffline) Then
-		GUICtrlSetState($chkTrainOffline, $GUI_CHECKED)
-		GUICtrlSetState($txtMinTime, $GUI_ENABLE)
-		GUICtrlSetState($chkDisconnectedNaturally, $GUI_ENABLE)
-		GUICtrlSetState($txtExtraTime, $GUI_ENABLE)
-	Else
-		GUICtrlSetState($chkTrainOffline, $GUI_UNCHECKED)
-		GUICtrlSetState($txtMinTime, $GUI_DISABLE)
-		GUICtrlSetState($chkDisconnectedNaturally, $GUI_DISABLE)
-		GUICtrlSetState($txtExtraTime, $GUI_DISABLE)
-	EndIf
-
-	GUICtrlSetData($txtMinTime, $iMinTime)
-
-	If ($bDisconnectedNaturally) Then
-		GUICtrlSetState($chkDisconnectedNaturally, $GUI_CHECKED)
-	Else
-		GUICtrlSetState($chkDisconnectedNaturally, $GUI_UNCHECKED)
-	EndIf
-
-	GUICtrlSetData($txtExtraTime, $iExtraTime)
-
 	; Spells Creation  ---------------------------------------------------------------------
 	GUICtrlSetData($txtNumLightningSpell, $iLightningSpellComp)
 	GUICtrlSetData($txtNumRageSpell, $iRageSpellComp)
@@ -860,12 +836,6 @@ Func applyConfig($bRedrawAtExit = True) ;Applies the data from config to the con
 			GUICtrlSetState(Eval("chkAttackWeekdays" & $i), $GUI_UNCHECKED)
 		EndIf
 	Next
-
-	If ($bAttackExit) Then ; MMHK
-		GUICtrlSetState($chkAttackExit, $GUI_CHECKED)
-	Else
-		GUICtrlSetState($chkAttackExit, $GUI_UNCHECKED)
-	EndIf
 
 	GUICtrlSetData($txtSWTTiles, $itxtSWTtiles)
 	;ChkSnipeWhileTrain()
@@ -1799,7 +1769,11 @@ EndIf
 	Else
 		GUICtrlSetState($chkdebugTrain, $GUI_UNCHECKED)
 	EndIf
-
+	If $debugOCRdonate = 1 Then
+		GUICtrlSetState($chkdebugOCRDonate, $GUI_CHECKED)
+	Else
+		GUICtrlSetState($chkdebugOCRDonate, $GUI_UNCHECKED)
+	EndIf
 
 	;forced Total Camp values
 	If $ichkTotalCampForced = 1 Then
@@ -1994,7 +1968,7 @@ EndIf
 		GUICtrlSetState($chkAtkDarkDrills, $GUI_UNCHECKED)
 	EndIf
 
-	_GUICtrlComboBox_SetCurSel($cmbAtkDarkDrillsLevel, $MilkFarmAttackDarkDrills - 1)
+	_GUICtrlComboBox_SetCurSel($cmbAtkDarkDrillsLevel, $MilkFarmDrillParam - 1)
 
 	;3 Only attack If
 	_GUICtrlComboBox_SetCurSel($cmbRedlineResDistance, $MilkFarmResMaxTilesFromBorder)
@@ -2105,15 +2079,15 @@ EndIf
 	EndIf
 
 	If $MilkingAttackCheckStructureDestroyedBeforeAttack = 1 Then
-		_GUICtrlComboBox_SetCurSel($chkStructureDestroyedBeforeAttack,1)
+		GUICtrlSetState($chkStructureDestroyedBeforeAttack,$GUI_CHECKED)
 	Else
-		_GUICtrlComboBox_SetCurSel($chkStructureDestroyedBeforeAttack,0)
+		GUICtrlSetState($chkStructureDestroyedBeforeAttack, $GUI_UNCHECKED)
 	EndIf
 
 	If $MilkingAttackCheckStructureDestroyedAfterAttack = 1 Then
-		_GUICtrlComboBox_SetCurSel($chkStructureDestroyedAfterAttack,1)
+		GUICtrlSetState($chkStructureDestroyedAfterAttack,$GUI_CHECKED)
 	Else
-		_GUICtrlComboBox_SetCurSel($chkStructureDestroyedAfterAttack,0)
+		GUICtrlSetState($chkStructureDestroyedAfterAttack,$GUI_UNCHECKED)
 	EndIf
 
 	If $MilkingAttackDropGoblinAlgorithm = 1 Then
@@ -2386,8 +2360,67 @@ LoadABSnipeAttacks() ; recreate combo box values
 _GUICtrlComboBox_SetCurSel($cmbTHSnipeBeforeLBScript, _GUICtrlComboBox_FindStringExact($cmbTHSnipeBeforeLBScript, $THSnipeBeforeLBScript))
 
 
+	; MOD ; MMHK
+	; Close the emulator when attacks not scheduled ----------------------------------------
+	If ($bAttackExit) Then
+		GUICtrlSetState($chkAttackExit, $GUI_CHECKED)
+	Else
+		GUICtrlSetState($chkAttackExit, $GUI_UNCHECKED)
+	EndIf
 
+	; Offline while training ---------------------------------------------------------------
+	If ($bTrainOffline) Then
+		GUICtrlSetState($chkTrainOffline, $GUI_CHECKED)
+		GUICtrlSetState($txtMinTime, $GUI_ENABLE)
+		GUICtrlSetState($chkDisconnectedNaturally, $GUI_ENABLE)
+		GUICtrlSetState($txtExtraTime, $GUI_ENABLE)
+	Else
+		GUICtrlSetState($chkTrainOffline, $GUI_UNCHECKED)
+		GUICtrlSetState($txtMinTime, $GUI_DISABLE)
+		GUICtrlSetState($chkDisconnectedNaturally, $GUI_DISABLE)
+		GUICtrlSetState($txtExtraTime, $GUI_DISABLE)
+	EndIf
 
+	GUICtrlSetData($txtMinTime, $iMinTime)
+
+	If ($bDisconnectedNaturally) Then
+		GUICtrlSetState($chkDisconnectedNaturally, $GUI_CHECKED)
+	Else
+		GUICtrlSetState($chkDisconnectedNaturally, $GUI_UNCHECKED)
+	EndIf
+
+	GUICtrlSetData($txtExtraTime, $iExtraTime)
+
+	; Smart Zap ------------------------------------------------------------------------------
+    If $ichkSmartZap = 1 Then
+        GUICtrlSetState($chkSmartLightSpell, $GUI_CHECKED)
+        GUICtrlSetState($chkSmartZapDB, $GUI_ENABLE)
+        GUICtrlSetState($chkSmartZapSaveHeroes, $GUI_ENABLE)
+        GUICtrlSetState($txtMinDark, $GUI_ENABLE)
+		GUICtrlSetState($lblSmartZap, $GUI_ENABLE)
+    Else
+        GUICtrlSetState($chkSmartLightSpell, $GUI_UNCHECKED)
+        GUICtrlSetState($chkSmartZapDB, $GUI_DISABLE)
+        GUICtrlSetState($chkSmartZapSaveHeroes, $GUI_DISABLE)
+        GUICtrlSetState($txtMinDark, $GUI_DISABLE)
+		GUICtrlSetState($lblSmartZap, $GUI_DISABLE)
+    EndIf
+
+    If $ichkSmartZapDB = 1 Then
+        GUICtrlSetState($chkSmartZapDB, $GUI_CHECKED)
+    Else
+        GUICtrlSetState($chkSmartZapDB, $GUI_UNCHECKED)
+    EndIf
+
+    If $ichkSmartZapSaveHeroes = 1 Then
+        GUICtrlSetState($chkSmartZapSaveHeroes, $GUI_CHECKED)
+    Else
+        GUICtrlSetState($chkSmartZapSaveHeroes, $GUI_UNCHECKED)
+    EndIf
+
+    GUICtrlSetData($txtMinDark, $itxtMinDE)
+
+	;-----------------------------------------------------------------------------------------
 
 
 	; Reenabling window redraw

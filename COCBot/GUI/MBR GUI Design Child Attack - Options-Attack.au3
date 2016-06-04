@@ -164,7 +164,7 @@ Global $chkAttackWeekdays1, $chkAttackWeekdays2, $chkAttackWeekdays3, $chkAttack
 	$lbAttackWeekdays7 = GUICtrlCreateLabel(GetTranslated(603,28, "Sa"), $x + 120, $y, 13, 15)
 	GUICtrlSetTip(-1, GetTranslated(603,29, "Saturday"))
 
-	$lbAttackExit = GUICtrlCreateLabel("Exit", $x + 170, $y) ; MMHK
+	$lbAttackExit = GUICtrlCreateLabel("Exit", $x + 170, $y) ; MOD ; MMHK
 	GUICtrlSetTip(-1, "Close emulater outside of scheduled attack hours." & @CRLF & "Restart emulater when it is back in.")
 
 	$y += 13
@@ -183,14 +183,16 @@ Global $chkAttackWeekdays1, $chkAttackWeekdays2, $chkAttackWeekdays3, $chkAttack
 	$chkAttackWeekdays6 = GUICtrlCreateCheckbox("", $x + 120, $y, 15, 15)
 	GUICtrlSetState(-1, $GUI_CHECKED)
 
-	$chkAttackExit = GUICtrlCreateCheckbox("", $x + 172, $y, 15, 15) ; MMHK
+	; MOD ; MMHK
+	; Close the emulator when attacks not scheduled
+	$chkAttackExit = GUICtrlCreateCheckbox("", $x + 172, $y, 15, 15)
 	GUICtrlSetState(-1, $GUI_UNCHECKED)
 	GUICtrlSetOnEvent(-1, "chkAttackExit")
 
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 Local $x = 25, $y = 205
-	$grpClanCastleBal = GUICtrlCreateGroup(GetTranslated(634,12, "ClanCastle"), $x - 20, $y - 20, 420, 113)
+	$grpClanCastleBal = GUICtrlCreateGroup(GetTranslated(634,12, "ClanCastle"), $x - 20, $y - 20, 420-194, 113)
 		GUICtrlCreateIcon($pIconLib, $eIcnCC, $x -10 , $y - 5, 24, 24)
 		$y -= 4
 		$chkUseCCBalanced = GUICtrlCreateCheckbox(GetTranslated(634,13,"Balance D/R" ), $x +20, $y+2, -1, -1)
@@ -299,4 +301,45 @@ Local $x = 25, $y = 205
 	GUICtrlSetOnEvent(-1, "chkDropCCHoursE2")
 	$lbDropCCHoursPM = GUICtrlCreateLabel(GetTranslated(603,4, -1), $x + 10, $y)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
+
+; MOD ; MMHK ; Smart Zap
+Local $x = 238, $y = 185
+	$grpSmartZap = GUICtrlCreateGroup("Smart Zap", $x, $y, 187, 113)
+		$x += 10
+		$y += 15
+		GUICtrlCreateIcon($pIconLib, $eIcnLightSpell, $x, $y, 24, 24)
+		GUICtrlCreateIcon($pIconLib, $eIcnDrill, $x, $y + 27, 24, 24)
+		$y -= 4
+		$chkSmartLightSpell = GUICtrlCreateCheckbox("Lightning dark drills", $x + 30, $y + 7, -1, -1)
+			$txtTip = "Check this to drop Lightning Spells on top of Dark Elixir Drills." & @CRLF & @CRLF & _
+					  "Remember to go to the tab 'troops' and put the maximum capacity " & @CRLF & _
+					  "of your spell factory and the number of spells so that the bot " & @CRLF & _
+					  "can function perfectly."
+			GUICtrlSetTip(-1, $txtTip)
+			GUICtrlSetOnEvent(-1, "chkSmartLightSpell")
+		$chkSmartZapDB = GUICtrlCreateCheckbox("Dead bases only", $x + 30, $y + 34, -1, -1)
+			$txtTip = "It is recommended you only zap drills in dead bases as most of the " & @CRLF & _
+					  "Dark Elixir in a live base will be in the storage."
+			GUICtrlSetTip(-1, $txtTip)
+			GUICtrlSetState(-1, $GUI_CHECKED)
+			GUICtrlSetState(-1, $GUI_DISABLE)
+			GUICtrlSetOnEvent(-1, "chkSmartZapDB")
+		$lblSmartZap = GUICtrlCreateLabel("Min amount of DE in drills :", $x, $y + 61)
+		$txtMinDark = GUICtrlCreateInput("250", $x + 131, $y + 57, 31, 17, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+		    $txtTip = "The value here depends a lot on what level your Town Hall is, " & @CRLF & _
+					  "and what level drills you most often see."
+			GUICtrlSetTip(-1, $txtTip)
+			GUICtrlSetLimit(-1, 4)
+			GUICtrlSetState(-1, $GUI_DISABLE)
+			GUICtrlSetOnEvent(-1, "txtMinDark")
+		$chkSmartZapSaveHeroes = GUICtrlCreateCheckbox("Don't zap when TH Snipe + Hero", $x, $y + 75, -1, -1)
+			$txtTip = "This will stop SmartZap from zapping a base on a Town Hall Snipe " & @CRLF & _
+					  "if your heroes were deployed. " & @CRLF & @CRLF & _
+					  "This protects their health so they will be ready for battle sooner!"
+			GUICtrlSetTip(-1, $txtTip)
+			GUICtrlSetState(-1, $GUI_CHECKED)
+			GUICtrlSetState(-1, $GUI_DISABLE)
+			GUICtrlSetOnEvent(-1, "chkSmartZapSaveHeroes")
+	GUICtrlCreateGroup("", -99, -99, 1, 1)
+
 

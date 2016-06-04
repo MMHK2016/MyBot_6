@@ -578,12 +578,11 @@ Func saveConfig() ;Saves the controls settings to the config
 		Else
 			$debugsetlogTrain = 0
 		EndIf
-	Else
-		$DebugSetlog = 0
-		$debugOcr = 0
-		$DebugImageSave = 0
-		$debugBuildingPos = 0
-		$debugsetlogTrain = 0
+		If GUICtrlRead($chkdebugOCRDonate) = $GUI_CHECKED Then
+			$debugOCRdonate = 1
+		Else
+			$debugOCRdonate = 0
+		EndIf
 	EndIf
 
 	If GUICtrlRead($chkTotalCampForced) = $GUI_CHECKED Then
@@ -737,7 +736,7 @@ Func saveConfig() ;Saves the controls settings to the config
 		$MilkFarmLocateDrill = 0
 	EndIf
 
-	$MilkFarmAttackDarkDrills = _GUICtrlComboBox_GetCurSel($cmbAtkDarkDrillsLevel) + 1
+	$MilkFarmDrillParam = _GUICtrlComboBox_GetCurSel($cmbAtkDarkDrillsLevel) + 1
 
 	;3. Only Attack If
 	$MilkFarmResMaxTilesFromBorder = _GUICtrlComboBox_GetCurSel($cmbRedlineResDistance)
@@ -1831,24 +1830,6 @@ Func saveConfig() ;Saves the controls settings to the config
 
 	;barracks boost not saved (no use)
 
-	; MOD ; MMHK
-	; Offline while training ---------------------------------------------------------------
-	If GUICtrlRead($chkTrainOffline) = $GUI_CHECKED Then
-		IniWrite($config, "troop", "TrainOffline", 1)
-	Else
-		IniWrite($config, "troop", "TrainOffline", 0)
-    EndIf
-
-	IniWrite($config, "troop", "MinTime", GUICtrlRead($txtMinTime))
-
-	If GUICtrlRead($chkDisconnectedNaturally) = $GUI_CHECKED Then
-		IniWrite($config, "troop", "DisconnectedNaturally", 1)
-	Else
-		IniWrite($config, "troop", "DisconnectedNaturally", 0)
-    EndIf
-
-	IniWrite($config, "troop", "ExtraTime", GUICtrlRead($txtExtraTime))
-
 	; Spells Creation  ---------------------------------------------------------------------
 	IniWriteS($config, "Spells", "LightningSpell", GUICtrlRead($txtNumLightningSpell))
 	IniWriteS($config, "Spells", "RageSpell", GUICtrlRead($txtNumRageSpell))
@@ -2156,12 +2137,6 @@ Func saveConfig() ;Saves the controls settings to the config
 	Next
 	IniWriteS($config, "planned", "attackDays", $string)
 
-	If GUICtrlRead($chkAttackExit) = $GUI_CHECKED Then ; MMHK
-		IniWriteS($config, "planned", "AttackExit", 1)
-	Else
-		IniWriteS($config, "planned", "AttackExit", 0)
-	EndIf
-
 	;Share Attack Settings----------------------------------------
 	IniWriteS($config, "shareattack", "minGold", $iShareminGold)
 	IniWriteS($config, "shareattack", "minElixir", $iShareminElixir)
@@ -2190,7 +2165,7 @@ Func saveConfig() ;Saves the controls settings to the config
 		IniWriteS($config, "debug", "debugresourcesoffset", $debugresourcesoffset)
 		IniWriteS($config, "debug", "continuesearchelixirdebug", $continuesearchelixirdebug)
 		IniWriteS($config, "debug", "debugMilkingIMGmake", $debugMilkingIMGmake)
-
+		IniWriteS($config, "debug", "debugOCRDonate", $debugOCRdonate)
 	Else
 		IniDelete($config, "debug", "debugocr")
 		IniDelete($config, "debug", "debugsetlog")
@@ -2199,6 +2174,7 @@ Func saveConfig() ;Saves the controls settings to the config
 		IniDelete($config, "debug", "debugtrain")
 		IniDelete($config, "debug", "debugresourcesoffset")
 		IniDelete($config, "debug", "continuesearchelixirdebug")
+		IniDelete($config, "debug", "debugOCRDonate")
 	EndIf
 
 	;forced Total Camp values
@@ -2307,6 +2283,54 @@ Func saveConfig() ;Saves the controls settings to the config
 	IniWriteS($config, "android", "adb.clicks.troop.deploy.size", $AndroidAdbClicksTroopDeploySize)
 
 	If $hFile <> -1 Then FileClose($hFile)
+
+
+	; MOD ; MMHK
+	; Close the emulator when attacks not scheduled ----------------------------------------
+	If GUICtrlRead($chkAttackExit) = $GUI_CHECKED Then
+		IniWriteS($config, "planned", "AttackExit", 1)
+	Else
+		IniWriteS($config, "planned", "AttackExit", 0)
+	EndIf
+
+	; Offline while training ---------------------------------------------------------------
+	If GUICtrlRead($chkTrainOffline) = $GUI_CHECKED Then
+		IniWriteS($config, "troop", "TrainOffline", 1)
+	Else
+		IniWriteS($config, "troop", "TrainOffline", 0)
+    EndIf
+
+	IniWriteS($config, "troop", "MinTime", GUICtrlRead($txtMinTime))
+
+	If GUICtrlRead($chkDisconnectedNaturally) = $GUI_CHECKED Then
+		IniWriteS($config, "troop", "DisconnectedNaturally", 1)
+	Else
+		IniWriteS($config, "troop", "DisconnectedNaturally", 0)
+    EndIf
+
+	IniWriteS($config, "troop", "ExtraTime", GUICtrlRead($txtExtraTime))
+
+	; Smart Zap ---------------------------------------------------------------
+    If GUICtrlRead($chkSmartLightSpell) = $GUI_CHECKED Then
+        IniWriteS($config, "attack", "UseSmartZap", 1)
+    Else
+        IniWriteS($config, "attack", "UseSmartZap", 0)
+    EndIf
+
+    If GUICtrlRead($chkSmartZapDB) = $GUI_CHECKED Then
+        IniWriteS($config, "attack", "ZapDBOnly", 1)
+    Else
+        IniWriteS($config, "attack", "ZapDBOnly", 0)
+    EndIf
+
+    If GUICtrlRead($chkSmartZapSaveHeroes) = $GUI_CHECKED Then
+        IniWriteS($config, "attack", "THSnipeSaveHeroes", 1)
+    Else
+        IniWriteS($config, "attack", "THSnipeSaveHeroes", 0)
+    EndIf
+
+    IniWriteS($config, "attack", "MinDE", GUICtrlRead($txtMinDark))
+
 
 EndFunc   ;==>saveConfig
 

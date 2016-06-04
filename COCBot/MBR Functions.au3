@@ -114,7 +114,7 @@
 #include "functions\CreateArmy\TrainClick.au3"
 #include "functions\CreateArmy\Train.au3"
 #include "functions\CreateArmy\TrainIt.au3"
-#include "functions\CreateArmy\RemainTimeTrain.au3"
+
 
 #include "functions\Image Search\ImageSearch.au3"
 #include "functions\Image Search\checkDeadBase.au3"
@@ -251,11 +251,15 @@
 #include "functions\Village\ClanLevel.au3"
 #include "functions\Village\StarBonus.au3"
 
-; MOD function ; MMHK
+; MOD ; MMHK ----------------------------------------------------------------------------------------------------
 ; Close the emulator when attacks not scheduled
 #include "functions\MOD\_SleepStatus2.au3"
 #include "functions\MOD\_TicksToDay.au3"
 #include "functions\MOD\_TimeToNextScheduled.au3"
+
 ; Offline while training
 #include "functions\MOD\getRemainTrainTime.au3"
 
+; Smart Zap
+#include "functions\MOD\smartZap.au3"
+#include "functions\MOD\drillSearch.au3"

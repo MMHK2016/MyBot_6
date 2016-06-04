@@ -60,6 +60,7 @@ Global $debugAttackCSV = 0, $makeIMGCSV = 0 ;attackcsv debug
 Global $debugMultilanguage = 0
 Global $debugsetlogTrain = 0
 Global $debugGetLocation = 0 ;make a image of each structure detected with getlocation
+Global $debugOCRdonate = 0 ; when 1 make OCR and simulate but do not donate
 
 Global Const $COLOR_ORANGE = 0xFF7700
 Global Const $bCapturePixel = True, $bNoCapturePixel = False
@@ -1036,35 +1037,6 @@ Global $aLabPos[2] = [-1, -1]
 Global $iChkLab, $iCmbLaboratory, $iFirstTimeLab
 Global $sLabUpgradeTime = ""
 
-; Array to hold Laboratory Troop information [LocX of upper left corner of image, LocY of upper left corner of image, PageLocation, Troop "name", Icon # in DLL file]
-Global Const $aLabTroops[26][5] = [ _
-		[-1, -1, -1, "None", $eIcnBlank], _
-		[123, 320 + $midOffsetY, 0, "Barbarian", $eIcnBarbarian], _
-		[123, 427 + $midOffsetY, 0, "Archer", $eIcnArcher], _
-		[230, 320 + $midOffsetY, 0, "Giant", $eIcnGiant], _
-		[230, 427 + $midOffsetY, 0, "Goblin", $eIcnGoblin], _
-		[337, 320 + $midOffsetY, 0, "Wall Breaker", $eIcnWallBreaker], _
-		[337, 427 + $midOffsetY, 0, "Balloon", $eIcnBalloon], _
-		[443, 320 + $midOffsetY, 0, "Wizard", $eIcnWizard], _
-		[443, 427 + $midOffsetY, 0, "Healer", $eIcnHealer], _
-		[550, 320 + $midOffsetY, 0, "Dragon", $eIcnDragon], _
-		[550, 427 + $midOffsetY, 0, "Pekka", $eIcnPekka], _
-		[657, 320 + $midOffsetY, 0, "Lightning Spell", $eIcnLightSpell], _
-		[657, 427 + $midOffsetY, 0, "Healing Spell", $eIcnHealSpell], _
-		[657, 320 + $midOffsetY, 1, "Rage Spell", $eIcnRageSpell], _
-		[657, 427 + $midOffsetY, 1, "Jump Spell", $eIcnJumpSpell], _
-		[109, 320 + $midOffsetY, 2, "Freeze Spell", $eIcnFreezeSpell], _
-		[109, 427 + $midOffsetY, 2, "Poison Spell", $eIcnPoisonSpell], _
-		[216, 320 + $midOffsetY, 2, "Earthquake Spell", $eIcnEarthQuakeSpell], _
-		[216, 427 + $midOffsetY, 2, "Haste Spell", $eIcnHasteSpell], _
-		[322, 320 + $midOffsetY, 2, "Minion", $eIcnMinion], _
-		[322, 427 + $midOffsetY, 2, "Hog Rider", $eIcnHogRider], _
-		[429, 320 + $midOffsetY, 2, "Valkyrie", $eIcnValkyrie], _
-		[429, 427 + $midOffsetY, 2, "Golem", $eIcnGolem], _
-		[536, 320 + $midOffsetY, 2, "Witch", $eIcnWitch], _
-		[536, 427 + $midOffsetY, 2, "Lava Hound", $eIcnLavaHound], _
-		[642, 320 + $midOffsetY, 2, "Bowler", $eIcnBowler]]
-
 Global Const $aSearchCost[11] = _
 		[10, _
 		50, _
@@ -1117,8 +1089,6 @@ For $i = 0 To 6 ; MMHK
 Next
 Global $hourLoot
 Global $fullArmy1 = False
-
-Global $bAttackExit = False ; MMHK
 
 ; Share attack
 Global $iShareAttack = 0
@@ -1461,7 +1431,39 @@ Global $THSnipeBeforeDBTiles = 0 , $THSnipeBeforeLBTiles = 0
 Global $THSnipeBeforeDBScript = 0 , $THSnipeBeforeLBScript = 0
 
 
-; MOD Variables ; MMHK
-; Offline while training
+
+; MOD ; MMHK
+; Close the emulator when attacks not scheduled ---------------------------------------------------------------
+Global $bAttackExit = False
+
+; Offline while training --------------------------------------------------------------------------------------
 Global $bTrainOffline = False, $bDisconnectedNaturally = False
 Global $iTrainOfflineTime = 0, $iMinTime = 2, $iExtraTime = 0 ; minutes
+
+; SmartZap ----------------------------------------------------------------------------------------------------
+; SmartZap GUI variables
+Global $ichkSmartZap = 0
+Global $ichkSmartZapDB = 1
+Global $ichkSmartZapSaveHeroes = 1
+Global $itxtMinDE = 250
+
+; SmartZap stats
+Global $smartZapGain = 0, $numLSpellsUsed = 0
+Global $iOldsmartZapGain = 0, $iOldNumLTSpellsUsed = 0
+
+; SmartZap Array to hold Total Amount of DE available from Drill at each level (1-6)
+Global Const $drillLevelHold[6] = [120, _
+								   225, _
+								   405, _
+								   630, _
+								   960, _
+								   1350]
+
+; SmartZap Array to hold Amount of DE available to steal from Drills at each level (1-6)
+Global Const $drillLevelSteal[6] = [59, _
+                                    102, _
+								    172, _
+								    251, _
+								    343, _
+								    479]
+

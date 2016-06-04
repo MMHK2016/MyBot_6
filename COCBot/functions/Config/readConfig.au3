@@ -179,24 +179,6 @@ Func readConfig($inputfile = $config, $partial = False) ;Reads config and sets i
 
 		IniReadS($isldTrainITDelay, $config, "other", "TrainITDelay", "20")
 
-		; MOD ; MMHK
-		; Offline while training ---------------------------------------------------------------
-		If IniRead($config, "troop", "TrainOffline", "0") = 1 Then
-			$bTrainOffline = True
-		Else
-			$bTrainOffline = False
-		EndIf
-
-		$iMinTime = IniRead($config, "troop", "MinTime", "2")
-
-		If IniRead($config, "troop", "DisconnectedNaturally", "0") = 1 Then
-			$bDisconnectedNaturally = True
-		Else
-			$bDisconnectedNaturally = False
-		EndIf
-
-		$iExtraTime = IniRead($config, "troop", "ExtraTime", "0")
-
 		;Army training - Spells Creation  -----------------------------------------------------
 		Local $tempQtaSpell
 		IniReadS($iLightningSpellComp, $config, "Spells", "LightningSpell", "0")
@@ -654,6 +636,7 @@ Func readConfig($inputfile = $config, $partial = False) ;Reads config and sets i
 			$debugresourcesoffset = BitOR($debugresourcesoffset, IniRead($config, "debug", "debugresourcesoffset", "0"))
 			$continuesearchelixirdebug = BitOR($continuesearchelixirdebug, IniRead($config, "debug", "continuesearchelixirdebug", "0"))
 			$debugMilkingIMGmake =  BitOR($debugMilkingIMGmake, IniRead($config, "debug", "debugMilkingIMGmake", "0"))
+			$debugOCRdonate = BitOr ($debugOCRdonate,  IniRead($config, "debug", "debugOCRDonate", "0"))
 			;InireadS(xxxx,$config, "attack", "xxxx", "0")
 			;InireadS(xxxx,$config, "attack", "xxxx", "0")
 			;InireadS(xxxx,$config, "attack", "xxxx", "0")
@@ -678,12 +661,6 @@ Func readConfig($inputfile = $config, $partial = False) ;Reads config and sets i
 		$iPlannedBoostBarracksHours = StringSplit(IniRead($config, "planned", "BoostBarracksHours", "1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1"), "|", $STR_NOCOUNT) ; MMHK
 		$iPlannedattackHours = StringSplit(IniRead($config, "planned", "attackHours", "1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1"), "|", $STR_NOCOUNT) ; MMHK
 		$iPlannedAttackWeekDays = StringSplit(IniRead($config, "planned", "attackDays", "1|1|1|1|1|1|1|"), "|", $STR_NOCOUNT) ; MMHK
-
-		If IniRead($config, "planned", "AttackExit", "0") = 1 Then ; MMHK
-			$bAttackExit = True
-		Else
-			$bAttackExit = False
-		EndIf
 
 		;InireadS(xxxx,$config, "attack", "xxxx", "0")
 		;InireadS(xxxx,$config, "attack", "xxxx", "0")
@@ -1035,6 +1012,38 @@ Func readConfig($inputfile = $config, $partial = False) ;Reads config and sets i
 		; Android Configuration
 		$AndroidAdbClicksEnabled = IniRead($config, "android", "adb.clicks.enabled", ($AndroidAdbClicksEnabled ? "1" : "0")) = "1"
 		$AndroidAdbClicksTroopDeploySize = Int(IniRead($config, "android", "adb.clicks.troop.deploy.size", $AndroidAdbClicksTroopDeploySize))
+
+		; MOD ; MMHK
+		; Close the emulator when attacks not scheduled ---------------------------------------
+		If IniRead($config, "planned", "AttackExit", "0") = 1 Then
+			$bAttackExit = True
+		Else
+			$bAttackExit = False
+		EndIf
+
+		; Offline while training ---------------------------------------------------------------
+		If IniRead($config, "troop", "TrainOffline", "0") = 1 Then
+			$bTrainOffline = True
+		Else
+			$bTrainOffline = False
+		EndIf
+
+		$iMinTime = IniRead($config, "troop", "MinTime", "2")
+
+		If IniRead($config, "troop", "DisconnectedNaturally", "0") = 1 Then
+			$bDisconnectedNaturally = True
+		Else
+			$bDisconnectedNaturally = False
+		EndIf
+
+		$iExtraTime = IniRead($config, "troop", "ExtraTime", "0")
+
+		; Smart Zap -----------------------------------------------------------------------------
+        $ichkSmartZap = Number(IniRead($config, "attack", "UseSmartZap", "0"))
+        $ichkSmartZapDB = Number(IniRead($config, "attack", "ZapDBOnly", "1"))
+        $ichkSmartZapSaveHeroes = Number(IniRead($config, "attack", "THSnipeSaveHeroes", "1"))
+        $itxtMinDE = Number(IniRead($config, "attack", "MinDE", "250"))
+
 
 	Else
 		Return False

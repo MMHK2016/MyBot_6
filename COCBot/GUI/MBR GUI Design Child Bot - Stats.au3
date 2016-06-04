@@ -526,6 +526,22 @@ $hGUI_STATS_TAB_ITEM3 = GUICtrlCreateTabItem(GetTranslated(600,40,"Attacks"))
 			GUICtrlCreateIcon($pIconLib, $eIcnDrill, $x + 73, $y - 4, 16, 16)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
+	; MOD ; MMHK ; Smart Zap
+	$x = $xStart
+	$y = $yStart + 270
+	$grpStatsSZ = GUICtrlCreateGroup("Smart Zap", $x - 20, $y - 20, 111, 55)
+			GUICtrlCreateLabel("Attacked" & ":", $x - 15, $y - 2, -1, 17)
+			$lblLightningUsed = GUICtrlCreateLabel("0", $x + 2, $y - 2, 80, 17, $SS_RIGHT)
+			$txtTip = "Number of used spells"
+			GUICtrlSetTip(-1, $txtTip)
+		$y += 17
+			GUICtrlCreateIcon($pIconLib, $eIcnDark, $x - 15, $y - 4, 16, 16)
+			GUICtrlCreateLabel(GetTranslated(632,74, -1) & ":", $x + 3, $y - 2, -1, 17)
+			$lblSmartZap = GUICtrlCreateLabel("0", $x + 2, $y - 2, 80, 17, $SS_RIGHT)
+			$txtTip = "Number of dark elixir zapped during the attack with lightning."
+			GUICtrlSetTip(-1, $txtTip)
+	GUICtrlCreateGroup("", -99, -99, 1, 1)
+
 ;--> TAB Attacks
 GUICtrlCreateTabItem("")
 ;GUISetState()
