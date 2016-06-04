@@ -1,4 +1,4 @@
-* **V6.1.1.MMHK.v6.3.0**
+* **V6.1.2.1.MMHK.v6.3.0**
  * Upgrade MyBot v6.1.2.1
  * Add Smart Zap thks to @LunaEclipse, @cutidudz
  * Improve match found tray tip with profile name and search # displayed
