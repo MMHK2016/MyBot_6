@@ -1,3 +1,8 @@
+* **V6.1.2.1.MMHK.v6.3.1**
+ * Fix Smart Zap DE Stats disabled
+ * Fix Smart Zap description enabled when first started
+
+
 * **V6.1.2.1.MMHK.v6.3.0**
  * Upgrade MyBot v6.1.2.1
  * Add Smart Zap thks to @LunaEclipse, @cutidudz
