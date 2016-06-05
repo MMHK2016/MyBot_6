@@ -325,6 +325,7 @@ Local $x = 238, $y = 185
 			GUICtrlSetState(-1, $GUI_DISABLE)
 			GUICtrlSetOnEvent(-1, "chkSmartZapDB")
 		$lblSmartZap = GUICtrlCreateLabel("Min amount of DE in drills :", $x, $y + 61)
+			GUICtrlSetState(-1, $GUI_DISABLE)
 		$txtMinDark = GUICtrlCreateInput("250", $x + 131, $y + 57, 31, 17, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
 		    $txtTip = "The value here depends a lot on what level your Town Hall is, " & @CRLF & _
 					  "and what level drills you most often see."

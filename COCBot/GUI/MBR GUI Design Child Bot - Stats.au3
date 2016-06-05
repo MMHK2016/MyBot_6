@@ -537,7 +537,7 @@ $hGUI_STATS_TAB_ITEM3 = GUICtrlCreateTabItem(GetTranslated(600,40,"Attacks"))
 		$y += 17
 			GUICtrlCreateIcon($pIconLib, $eIcnDark, $x - 15, $y - 4, 16, 16)
 			GUICtrlCreateLabel(GetTranslated(632,74, -1) & ":", $x + 3, $y - 2, -1, 17)
-			$lblSmartZap = GUICtrlCreateLabel("0", $x + 2, $y - 2, 80, 17, $SS_RIGHT)
+			$lblTotalDEGain = GUICtrlCreateLabel("0", $x + 2, $y - 2, 80, 17, $SS_RIGHT)
 			$txtTip = "Number of dark elixir zapped during the attack with lightning."
 			GUICtrlSetTip(-1, $txtTip)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)

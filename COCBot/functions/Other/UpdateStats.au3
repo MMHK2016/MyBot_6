@@ -303,7 +303,7 @@ Func UpdateStats()
 
 	; MOD ; MMHK ; Smart Zap ------------------------------------------------------------------------
 	If $iOldSmartZapGain <> $smartZapGain Then
-		GUICtrlSetData($lblSmartZap, _NumberFormat($smartZapGain, True))
+		GUICtrlSetData($lblTotalDEGain, _NumberFormat($smartZapGain, True))
 		$iOldSmartZapGain = $smartZapGain
 	EndIf
 
