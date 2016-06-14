@@ -177,7 +177,7 @@ Global Const $GemWitc[4] = [666, 372 + $midOffsetY, 0xE70A12, 30]
 Global Const $GemLava[4] = [239, 482 + $midOffsetY, 0xE70A12, 30]
 
 Global Const $aCloseChat[4] = [331, 330 + $midOffsetY, 0xF0951D, 20]
-Global Const $aChatDonateBtnColors[4][4] = [[0x050505, 0, -4, 30], [0x89CA31, 0, 13, 15], [0x89CA31, 0, 16, 15], [0xFFFFFF, 21, 7, 5]]
+Global Const $aChatDonateBtnColors[4][4] = [[0x050505, 0, -4, 30], [0x89CA31, 0, 13, 15], [0x89CA31, 0, 16, 15], [0x7EC530, -1, 0, 25]] ; MMHK ; Smart chat donation - faster search backward
 
 ;attackreport
 Global Const $aAtkRprtDECheck[4] = [459, 372 + $midOffsetY, 0x433350, 20]

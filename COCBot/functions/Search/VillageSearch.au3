@@ -214,13 +214,20 @@ Func VillageSearch() ;Control for searching a village that meets conditions
 			SetLog($GetResourcesTXT, $COLOR_GREEN, "Lucida Console", 7.5)
 			SetLog("      " & "Dead Base Found!", $COLOR_GREEN, "Lucida Console", 7.5)
 			$logwrited = True
-			$iMatchMode = $DB
-			If $debugDeadBaseImage = 1 Then
-				_CaptureRegion()
-				_GDIPlus_ImageSaveToFile($hBitmap, @ScriptDir & "\Zombies\" & $Date & " at " & $Time & ".png")
-				_WinAPI_DeleteObject($hBitmap)
+			; MOD ; MMHK ; Check Collectors Outside
+			If $ichkDBMeetCollOutside = 1 And Not AreCollectorsOutside($iDBMinCollOutsidePercent) Then
+				SetLog(GetTranslated(20,22, "Collectors are not outside!"), $COLOR_RED, "Lucida Console", 7.5)
+			Else
+				If $ichkDBMeetCollOutside = 1 And AreCollectorsOutside($iDBMinCollOutsidePercent) Then _
+					SetLog(GetTranslated(20,21, "Collectors are outside."), $COLOR_GREEN, "Lucida Console", 7.5)
+				$iMatchMode = $DB
+				If $debugDeadBaseImage = 1 Then
+					_CaptureRegion()
+					_GDIPlus_ImageSaveToFile($hBitmap, @ScriptDir & "\Zombies\" & $Date & " at " & $Time & ".png")
+					_WinAPI_DeleteObject($hBitmap)
+				EndIf
+				ExitLoop
 			EndIf
-			ExitLoop
 		ElseIf $match[$LB] And Not $dbBase  Then
 			SetLog($GetResourcesTXT, $COLOR_GREEN, "Lucida Console", 7.5)
 			SetLog("      " & "Live Base Found!", $COLOR_GREEN, "Lucida Console", 7.5)

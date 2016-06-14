@@ -2286,51 +2286,7 @@ Func saveConfig() ;Saves the controls settings to the config
 
 
 	; MOD ; MMHK
-	; Close the emulator when attacks not scheduled ----------------------------------------
-	If GUICtrlRead($chkAttackExit) = $GUI_CHECKED Then
-		IniWriteS($config, "planned", "AttackExit", 1)
-	Else
-		IniWriteS($config, "planned", "AttackExit", 0)
-	EndIf
-
-	; Offline while training ---------------------------------------------------------------
-	If GUICtrlRead($chkTrainOffline) = $GUI_CHECKED Then
-		IniWriteS($config, "troop", "TrainOffline", 1)
-	Else
-		IniWriteS($config, "troop", "TrainOffline", 0)
-    EndIf
-
-	IniWriteS($config, "troop", "MinTime", GUICtrlRead($txtMinTime))
-
-	If GUICtrlRead($chkDisconnectedNaturally) = $GUI_CHECKED Then
-		IniWriteS($config, "troop", "DisconnectedNaturally", 1)
-	Else
-		IniWriteS($config, "troop", "DisconnectedNaturally", 0)
-    EndIf
-
-	IniWriteS($config, "troop", "ExtraTime", GUICtrlRead($txtExtraTime))
-
-	; Smart Zap ---------------------------------------------------------------
-    If GUICtrlRead($chkSmartLightSpell) = $GUI_CHECKED Then
-        IniWriteS($config, "attack", "UseSmartZap", 1)
-    Else
-        IniWriteS($config, "attack", "UseSmartZap", 0)
-    EndIf
-
-    If GUICtrlRead($chkSmartZapDB) = $GUI_CHECKED Then
-        IniWriteS($config, "attack", "ZapDBOnly", 1)
-    Else
-        IniWriteS($config, "attack", "ZapDBOnly", 0)
-    EndIf
-
-    If GUICtrlRead($chkSmartZapSaveHeroes) = $GUI_CHECKED Then
-        IniWriteS($config, "attack", "THSnipeSaveHeroes", 1)
-    Else
-        IniWriteS($config, "attack", "THSnipeSaveHeroes", 0)
-    EndIf
-
-    IniWriteS($config, "attack", "MinDE", GUICtrlRead($txtMinDark))
-
+	#include "..\..\..\MOD\MMHK\MMHK saveConfig.au3"
 
 EndFunc   ;==>saveConfig
 

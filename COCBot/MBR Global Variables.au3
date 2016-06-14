@@ -1433,37 +1433,5 @@ Global $THSnipeBeforeDBScript = 0 , $THSnipeBeforeLBScript = 0
 
 
 ; MOD ; MMHK
-; Close the emulator when attacks not scheduled ---------------------------------------------------------------
-Global $bAttackExit = False
-
-; Offline while training --------------------------------------------------------------------------------------
-Global $bTrainOffline = False, $bDisconnectedNaturally = False
-Global $iTrainOfflineTime = 0, $iMinTime = 2, $iExtraTime = 0 ; minutes
-
-; SmartZap ----------------------------------------------------------------------------------------------------
-; SmartZap GUI variables
-Global $ichkSmartZap = 0
-Global $ichkSmartZapDB = 1
-Global $ichkSmartZapSaveHeroes = 1
-Global $itxtMinDE = 250
-
-; SmartZap stats
-Global $smartZapGain = 0, $numLSpellsUsed = 0
-Global $iOldsmartZapGain = 0, $iOldNumLTSpellsUsed = 0
-
-; SmartZap Array to hold Total Amount of DE available from Drill at each level (1-6)
-Global Const $drillLevelHold[6] = [120, _
-								   225, _
-								   405, _
-								   630, _
-								   960, _
-								   1350]
-
-; SmartZap Array to hold Amount of DE available to steal from Drills at each level (1-6)
-Global Const $drillLevelSteal[6] = [59, _
-                                    102, _
-								    172, _
-								    251, _
-								    343, _
-								    479]
+#include "..\MOD\MMHK\MMHK Global Variables.au3"
 

@@ -2331,7 +2331,7 @@ EndIf
 	_GUICtrlComboBox_SetCurSel($cmbLvl11, $cmbLvl11Fill)
 	_GUICtrlComboBox_SetCurSel($cmbLvl12, $cmbLvl12Fill)
 	GUICtrlSetData($sldCollectorTolerance, $toleranceOffset)
-	checkCollectors()
+	;checkCollectors() ; MOD ; MMHK ; fix no collectors are selected warning error
 	;Share Attack Settings----------------------------------------
 	GUICtrlSetData($txtShareMinGold, $iShareminGold)
 	GUICtrlSetData($txtShareMinElixir, $iShareminElixir)
@@ -2361,67 +2361,7 @@ _GUICtrlComboBox_SetCurSel($cmbTHSnipeBeforeLBScript, _GUICtrlComboBox_FindStrin
 
 
 	; MOD ; MMHK
-	; Close the emulator when attacks not scheduled ----------------------------------------
-	If ($bAttackExit) Then
-		GUICtrlSetState($chkAttackExit, $GUI_CHECKED)
-	Else
-		GUICtrlSetState($chkAttackExit, $GUI_UNCHECKED)
-	EndIf
-
-	; Offline while training ---------------------------------------------------------------
-	If ($bTrainOffline) Then
-		GUICtrlSetState($chkTrainOffline, $GUI_CHECKED)
-		GUICtrlSetState($txtMinTime, $GUI_ENABLE)
-		GUICtrlSetState($chkDisconnectedNaturally, $GUI_ENABLE)
-		GUICtrlSetState($txtExtraTime, $GUI_ENABLE)
-	Else
-		GUICtrlSetState($chkTrainOffline, $GUI_UNCHECKED)
-		GUICtrlSetState($txtMinTime, $GUI_DISABLE)
-		GUICtrlSetState($chkDisconnectedNaturally, $GUI_DISABLE)
-		GUICtrlSetState($txtExtraTime, $GUI_DISABLE)
-	EndIf
-
-	GUICtrlSetData($txtMinTime, $iMinTime)
-
-	If ($bDisconnectedNaturally) Then
-		GUICtrlSetState($chkDisconnectedNaturally, $GUI_CHECKED)
-	Else
-		GUICtrlSetState($chkDisconnectedNaturally, $GUI_UNCHECKED)
-	EndIf
-
-	GUICtrlSetData($txtExtraTime, $iExtraTime)
-
-	; Smart Zap ------------------------------------------------------------------------------
-    If $ichkSmartZap = 1 Then
-        GUICtrlSetState($chkSmartLightSpell, $GUI_CHECKED)
-        GUICtrlSetState($chkSmartZapDB, $GUI_ENABLE)
-        GUICtrlSetState($chkSmartZapSaveHeroes, $GUI_ENABLE)
-        GUICtrlSetState($txtMinDark, $GUI_ENABLE)
-		GUICtrlSetState($lblSmartZap, $GUI_ENABLE)
-    Else
-        GUICtrlSetState($chkSmartLightSpell, $GUI_UNCHECKED)
-        GUICtrlSetState($chkSmartZapDB, $GUI_DISABLE)
-        GUICtrlSetState($chkSmartZapSaveHeroes, $GUI_DISABLE)
-        GUICtrlSetState($txtMinDark, $GUI_DISABLE)
-		GUICtrlSetState($lblSmartZap, $GUI_DISABLE)
-    EndIf
-
-    If $ichkSmartZapDB = 1 Then
-        GUICtrlSetState($chkSmartZapDB, $GUI_CHECKED)
-    Else
-        GUICtrlSetState($chkSmartZapDB, $GUI_UNCHECKED)
-    EndIf
-
-    If $ichkSmartZapSaveHeroes = 1 Then
-        GUICtrlSetState($chkSmartZapSaveHeroes, $GUI_CHECKED)
-    Else
-        GUICtrlSetState($chkSmartZapSaveHeroes, $GUI_UNCHECKED)
-    EndIf
-
-    GUICtrlSetData($txtMinDark, $itxtMinDE)
-
-	;-----------------------------------------------------------------------------------------
-
+	#include "..\..\..\MOD\MMHK\MMHK applyConfig.au3"
 
 	; Reenabling window redraw
 	If $bRedrawAtExit Then SetRedrawBotWindow(True)

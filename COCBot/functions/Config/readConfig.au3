@@ -1014,36 +1014,7 @@ Func readConfig($inputfile = $config, $partial = False) ;Reads config and sets i
 		$AndroidAdbClicksTroopDeploySize = Int(IniRead($config, "android", "adb.clicks.troop.deploy.size", $AndroidAdbClicksTroopDeploySize))
 
 		; MOD ; MMHK
-		; Close the emulator when attacks not scheduled ---------------------------------------
-		If IniRead($config, "planned", "AttackExit", "0") = 1 Then
-			$bAttackExit = True
-		Else
-			$bAttackExit = False
-		EndIf
-
-		; Offline while training ---------------------------------------------------------------
-		If IniRead($config, "troop", "TrainOffline", "0") = 1 Then
-			$bTrainOffline = True
-		Else
-			$bTrainOffline = False
-		EndIf
-
-		$iMinTime = IniRead($config, "troop", "MinTime", "2")
-
-		If IniRead($config, "troop", "DisconnectedNaturally", "0") = 1 Then
-			$bDisconnectedNaturally = True
-		Else
-			$bDisconnectedNaturally = False
-		EndIf
-
-		$iExtraTime = IniRead($config, "troop", "ExtraTime", "0")
-
-		; Smart Zap -----------------------------------------------------------------------------
-        $ichkSmartZap = Number(IniRead($config, "attack", "UseSmartZap", "0"))
-        $ichkSmartZapDB = Number(IniRead($config, "attack", "ZapDBOnly", "1"))
-        $ichkSmartZapSaveHeroes = Number(IniRead($config, "attack", "THSnipeSaveHeroes", "1"))
-        $itxtMinDE = Number(IniRead($config, "attack", "MinDE", "250"))
-
+		#include "..\..\..\MOD\MMHK\MMHK readConfig.au3"
 
 	Else
 		Return False

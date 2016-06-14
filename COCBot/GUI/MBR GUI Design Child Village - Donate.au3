@@ -29,6 +29,11 @@ $hGUI_DONATE_TAB_ITEM1 = GUICtrlCreateTabItem(GetTranslated(600,11,"Request Troo
 		$txtRequestCC = GUICtrlCreateInput(GetTranslated(611,3, "Anything please"), $x +40+30 , $y + 15, 214, 20,  BitOR($SS_CENTER, $ES_AUTOHSCROLL))
 			GUICtrlSetState(-1, $GUI_DISABLE)
 			GUICtrlSetTip(-1, GetTranslated(611,4, "This text is used on your request for troops in the Clan chat."))
+		; MOD ; MMHK ; move the Request CC Troops function to the beginning of the run loop
+		$chkReqCCFirst = GUICtrlCreateCheckbox("Early", $x+40+30+214+10, $y-6)
+			GUICtrlSetTip(-1, "Request troops at the beginning of the run loop")
+			GUICtrlSetState(-1, $GUI_DISABLE)
+			GUICtrlSetOnEvent(-1, "chkReqCCFirst")
 
 		$x += 29 + 30
 		$y += 60

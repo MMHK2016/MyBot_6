@@ -47,7 +47,7 @@ EndIf
 #include "COCBot\MBR Global Variables.au3"
 #include "COCBot\functions\Config\ScreenCoordinates.au3"
 
-$sModVersion = "MMHK v6.3.1" ; MMHK
+$sModVersion = "MMHK v6.4.0" ; MMHK
 $sBotVersion = "v6.1.2.1" ;~ Don't add more here, but below. Version can't be longer than vX.y.z because it it also use on Checkversion()
 $sBotTitle = "My Bot " & $sBotVersion & " " & $sModVersion & " " ; MMHK ;~ Don't use any non file name supported characters like \ / : * ? " < > |
 
@@ -230,6 +230,13 @@ Func runBot() ;Bot that runs everything in order
 			If _Sleep($iDelayRunBot5) Then Return
 			checkMainScreen(False)
 			If $Restart = True Then ContinueLoop
+
+			; MOD ; MMHK ; move the Request CC Troops function to the beginning of the run loop
+			If ($bReqCCFirst) then
+				RequestCC()
+				If _Sleep($iDelayRunBot1) = False Then checkMainScreen(False)
+			EndIf
+
 			Local $Random1[3] = ['Collect', 'CheckTombs', 'ReArm']
 			While 1
 				If $RunState = False Then Return
@@ -361,12 +368,12 @@ Func Idle() ;Sequence that runs until Full Army
 			If $iTrainOfflineTime > $iMinTime Then
 				If ($bDisconnectedNaturally) And ($iTrainOfflineTime > 5) And Random(0, 1, 1) Then ; has to be longer than default idle time, randomly too
 					$iTrainOfflineTime += Random(0, $iExtraTime, 1) ; add random max extra time
-					SetLog("COC will be inactive for " & $iTrainOfflineTime & " minutes...", $COLOR_PURPLE)
+					SetLog("COC will be inactive for " & $iTrainOfflineTime & " minutes...", $COLOR_FUCHSIA)
 					If _SleepStatus($iTrainOfflineTime * 60000) Then Return
 					CloseCOC(True) ; kill then open
 				Else
 					$iTrainOfflineTime += Random(0, $iExtraTime, 1) ; add random max extra time
-					SetLog("COC will be closed for " & $iTrainOfflineTime & " minutes...", $COLOR_PURPLE)
+					SetLog("COC will be closed for " & $iTrainOfflineTime & " minutes...", $COLOR_FUCHSIA)
 					CloseCOC()
 					If _SleepStatus($iTrainOfflineTime * 60000) Then Return
 					OpenCOC()
@@ -466,7 +473,8 @@ EndFunc   ;==>Idle
 Func AttackMain() ;Main control for attack functions
 	;LoadAmountOfResourcesImages() ; for debug
 	If GotoAttack() Then
-		If (IsSearchModeActive($DB) And checkCollectors(True, False)) or IsSearchModeActive($LB) or IsSearchModeActive($TS) Then
+		;If (IsSearchModeActive($DB) And checkCollectors(True, False)) or IsSearchModeActive($LB) or IsSearchModeActive($TS) Then
+		If IsSearchModeActive($DB) or IsSearchModeActive($LB) or IsSearchModeActive($TS) Then ; MOD ; MMHK ; fix no collectors are selected warning error
 			If $iChkUseCCBalanced = 1 or $iChkUseCCBalancedCSV = 1 Then ;launch profilereport() only if option balance D/R it's activated
 				ProfileReport()
 				If _Sleep($iDelayAttackMain1) Then Return
@@ -576,32 +584,6 @@ Func GotoAttack()
 
 EndFunc   ;==>GotoAttack
 
-Func PlannedExit() ; MOD ; MMHK ; Close the emulator when attacks not scheduled
-
-	If Not ($bAttackExit) Then Return False 	; exit unchecked
-
-	Local $iTimeToNext = _TimeToNextScheduled($iPlannedAttackWeekDays,$iPlannedattackHours) + Random(0, 15, 1) * 60 * 1000
-
-	If $iTimeToNext = 0 Then Return False 		; all unchecked of day or hour; all checked current day and hour
-
-	Local $iDay, $iHour, $iMin, $iSec
-	_TicksToDay($iTimeToNext, $iDay, $iHour, $iMin, $iSec)
-
-	$sSleepTime = StringFormat("%2u Days %02u:%02u:%02u", $iDay, $iHour, $iMin, $iSec)
-	SetLog("Close Emulater as planned for ... " & $sSleepTime & " ...", $COLOR_PURPLE)
-	If _Sleep($iDelayRunBot1) Then Return
-
-	CloseCOC()
-	If _Sleep($iDelayRunBot1) Then Return
-
-	CloseAndroid()
-	If _SleepStatus2($iTimeToNext) Then Return True	; sleep
-
-	OpenAndroid(True)
-	Return True
-
-EndFunc   ;==>PlannedExit
-
 Func _RunFunction($action)
 	SetDebugLog("_RunFunction: " & $action & " BEGIN")
 	Switch $action
@@ -641,7 +623,7 @@ Func _RunFunction($action)
 		Case "BoostWarden"
 			BoostWarden()
 		Case "RequestCC"
-			RequestCC()
+			If Not ($bReqCCFirst) Then RequestCC() ; MOD ; MMHK ; move the Request CC Troops function to the beginning of the run loop
 			If _Sleep($iDelayRunBot1) = False Then checkMainScreen(False)
 		Case "Laboratory"
 			Laboratory()
