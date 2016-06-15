@@ -47,7 +47,7 @@ EndIf
 #include "COCBot\MBR Global Variables.au3"
 #include "COCBot\functions\Config\ScreenCoordinates.au3"
 
-$sModVersion = "MMHK v6.4.0" ; MMHK
+$sModVersion = "MMHK v6.4.1" ; MMHK
 $sBotVersion = "v6.1.2.1" ;~ Don't add more here, but below. Version can't be longer than vX.y.z because it it also use on Checkversion()
 $sBotTitle = "My Bot " & $sBotVersion & " " & $sModVersion & " " ; MMHK ;~ Don't use any non file name supported characters like \ / : * ? " < > |
 
@@ -232,11 +232,12 @@ Func runBot() ;Bot that runs everything in order
 			If $Restart = True Then ContinueLoop
 
 			; MOD ; MMHK ; move the Request CC Troops function to the beginning of the run loop
+			$canRequestCC = True ; coz almost always empty cc after raids, and no other lines above could check if true, other than Idle(): set True - Train(), CheckOverviewFullArmy(); set False - RequestCC()
 			If ($bReqCCFirst) then
 				RequestCC()
 				If _Sleep($iDelayRunBot1) = False Then checkMainScreen(False)
 			EndIf
-
+			; Comment ; MMHK ; repeat only these actions when not (line 257) GotoAttack() - attacks not planned and not close emulaters
 			Local $Random1[3] = ['Collect', 'CheckTombs', 'ReArm']
 			While 1
 				If $RunState = False Then Return
@@ -456,7 +457,7 @@ Func Idle() ;Sequence that runs until Full Army
 		If _Sleep($iDelayIdle1) Then Return
 		If $Restart = True Then ExitLoop
 		$TimeIdle += Round(TimerDiff($hTimer) / 1000, 2) ;In Seconds
-
+		; Comment ; MMHK ; why check here ? the req function has this buildin !
 		If $canRequestCC = True Then RequestCC()
 
 		If $CurCamp >=  $TotalCamp * $iEnableAfterArmyCamps[$DB]/100 and $iEnableSearchCamps[$DB]  = 1 Then Exitloop

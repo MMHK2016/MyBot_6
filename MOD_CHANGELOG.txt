@@ -1,3 +1,7 @@
+* **V6.1.2.1.MMHK.v6.4.1**
+ * Fix collectors outside duplicated logs
+ * Fix Request First pattern
+
 * **V6.1.2.1.MMHK.v6.4.0**
  * Add Option to Check Collectors Outside thks to @McSlither
  * Add Option to Request First - move the Request CC Troops function to the beginning of the run loop

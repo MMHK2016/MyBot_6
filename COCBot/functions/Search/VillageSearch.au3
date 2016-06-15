@@ -215,10 +215,11 @@ Func VillageSearch() ;Control for searching a village that meets conditions
 			SetLog("      " & "Dead Base Found!", $COLOR_GREEN, "Lucida Console", 7.5)
 			$logwrited = True
 			; MOD ; MMHK ; Check Collectors Outside
-			If $ichkDBMeetCollOutside = 1 And Not AreCollectorsOutside($iDBMinCollOutsidePercent) Then
+			Local $bCollectorsOutside = AreCollectorsOutside($iDBMinCollOutsidePercent)
+			If $ichkDBMeetCollOutside = 1 And Not $bCollectorsOutside Then
 				SetLog(GetTranslated(20,22, "Collectors are not outside!"), $COLOR_RED, "Lucida Console", 7.5)
 			Else
-				If $ichkDBMeetCollOutside = 1 And AreCollectorsOutside($iDBMinCollOutsidePercent) Then _
+				If $ichkDBMeetCollOutside = 1 And $bCollectorsOutside Then _
 					SetLog(GetTranslated(20,21, "Collectors are outside."), $COLOR_GREEN, "Lucida Console", 7.5)
 				$iMatchMode = $DB
 				If $debugDeadBaseImage = 1 Then
