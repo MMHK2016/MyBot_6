@@ -47,7 +47,7 @@ EndIf
 #include "COCBot\MBR Global Variables.au3"
 #include "COCBot\functions\Config\ScreenCoordinates.au3"
 
-$sModVersion = "MMHK v6.4.1" ; MMHK
+$sModVersion = "MMHK v6.4.2" ; MMHK
 $sBotVersion = "v6.1.2.1" ;~ Don't add more here, but below. Version can't be longer than vX.y.z because it it also use on Checkversion()
 $sBotTitle = "My Bot " & $sBotVersion & " " & $sModVersion & " " ; MMHK ;~ Don't use any non file name supported characters like \ / : * ? " < > |
 
