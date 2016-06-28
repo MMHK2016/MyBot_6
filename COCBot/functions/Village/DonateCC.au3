@@ -51,7 +51,7 @@ Func DonateCC($Check = False)
 		Return ; exit func if no planned donate checkmarks
 	EndIf
 
-	Local $y = 615 + $bottomOffsetY ; MMHK ; Smart chat donation - donation upward
+	Local $y = 90
 
 	;check for new chats first
 	If $Check = True Then
@@ -69,16 +69,30 @@ Func DonateCC($Check = False)
 
 	ClickP($aClanTab, 1, 0, "#0169") ; clicking clan tab
 
-	checkAttackDisable($iTaBChkIdle) ; Early Take-A-Break detection ; MMHK ; Smart chat donation - faster search backward
+	checkAttackDisable($iTaBChkIdle) ; Early Take-A-Break detection ; MMHK ; Smart chat donation
+
+	Local $iPosY, $Date, $Time, $dirReq = $dirTemp & "Req\", $DonateFile, $pBitmap1, $pBitmap2, $aFileList, $aImgDiff, $iDonTimes = 0 ; MMHK ; Smart chat donation
+	$bDonated = False ; reset when DonateCC() called
 
 	Local $Scroll
 	While $bDonate
+		; MOD ; MMHK ; Donation limit
+		If $bDonLimit Then
+			If $bDonated Then
+				$iDonTimes += 1
+				$bDonated = False
+			EndIf
+			If $iDonTimes > $iDonMaxTimes - 1 then
+				setlog("Donation limit reached. Stop donation for this round.", $COLOR_FUCHSIA)
+				ExitLoop
+			EndIf
+		EndIf
+
 		If _Sleep($iDelayDonateCC2) Then ExitLoop
 		ForceCaptureRegion()
-		$DonatePixel = _MultiPixelSearch3(202-1, 90-1, 202, $y, -1, -1, Hex(0x98D057, 6), $aChatDonateBtnColors, 15) ; MMHK ; Smart chat donation - donation upward, faster search backward
+		$DonatePixel = _MultiPixelSearch(202, $y, 224, 660 + $bottomOffsetY, 50, 1, Hex(0x98D057, 6), $aChatDonateBtnColors, 15)
 		If IsArray($DonatePixel) Then ; if Donate Button found
 			If $debugsetlog = 1 Then Setlog("$DonatePixel: (" & $DonatePixel[0] & "," & $DonatePixel[1] & ")", $COLOR_PURPLE)
-
 			;reset every run
 			$bDonate = False ; donate only for one request at a time
 			$bSkipDonTroops = False
@@ -88,6 +102,48 @@ Func DonateCC($Check = False)
 ;~ 			Else
 			$bSkipDonSpells = False
 ;~ 			EndIf
+
+			; MMHK ; Smart chat donation
+			$iPosY = $DonatePixel[1] - 50
+			_CaptureRegion(32, $iPosY, 140, $iPosY + 15)
+
+			$Date = @YEAR & "." & @MON & "." & @MDAY
+			$Time = @HOUR & "." & @MIN & "." & @SEC
+			$DonateFile = $Date & "_" & $Time & ".bmp"
+
+			_GDIPlus_ImageSaveToFile($hBitmap, $dirTemp & $DonateFile)
+			$pBitmap1 = _GDIPlus_BitmapCreateFromFile($dirTemp & $DonateFile)
+
+			$aFileList = _FileListToArrayRec($dirReq, "*.bmp", 1, 0, 1)
+			If Not @error And IsArray($aFileList) Then
+				For $i = 1 To $aFileList[0]
+					$pBitmap2 = _GDIPlus_BitmapCreateFromFile($dirReq & $aFileList[$i])
+					$aImgDiff = _GDIPlus_ImageCompare($pBitmap1, $pBitmap2, False)
+					_GDIPlus_BitmapDispose($pBitmap2)
+					If IsArray($aImgDiff) Then
+						If (UBound($aImgDiff)-1 / ($aImgDiff[0][1] * $aImgDiff[0][2]) * 100) < 10 Then 	; if same image
+							If $debugsetlog = 1 Then Setlog("Skip donation - checked earlier", $COLOR_PURPLE)
+							_GDIPlus_BitmapDispose($pBitmap1)
+							_GDIPlus_BitmapDispose($hBitmap)
+							$bDonate = True
+							$y = 680
+							ContinueLoop 2
+						EndIf
+						If $debugsetlog = 1 Then Setlog("Image does not matche with " & $i, $COLOR_PURPLE)
+					Else
+						If $debugsetlog = 1 Then Setlog("Images comparing error ..." & @error, $COLOR_PURPLE)
+					EndIf
+				Next
+			Else
+				If $debugsetlog = 1 And @error = 1 Then Setlog("Create dir for the first req image", $COLOR_PURPLE)
+			EndIf
+
+			If Not FileExists($dirReq & $DonateFile) Then
+				FileCopy($dirTemp & $DonateFile, $dirReq, $FC_OVERWRITE + $FC_CREATEPATH)
+			EndIf
+
+			_GDIPlus_BitmapDispose($pBitmap1)
+			_GDIPlus_BitmapDispose($hBitmap)
 
 			;Read chat request for DonateTroop and DonateSpell
 			If $bDonateTroop Or $bDonateSpell Then
@@ -126,7 +182,7 @@ Func DonateCC($Check = False)
 				If $ClanString = "" Or $ClanString = " " Then
 					SetLog("Unable to read Chat Request!", $COLOR_RED)
 					$bDonate = True
-					$y = $DonatePixel[1] - 50 ; MMHK ; Smart chat donation - donation upward
+					$y = $DonatePixel[1] + 50
 					ContinueLoop
 				Else
 					If $ichkExtraAlphabets = 1 Then
@@ -161,7 +217,7 @@ Func DonateCC($Check = False)
 			; open Donate Window
 			If ($bSkipDonTroops = True And $bSkipDonSpells = True) Or DonateWindow($bOpen) = False Then
 				$bDonate = True
-				$y = $DonatePixel[1] - 50 ; MMHK ; Smart chat donation - donation upward
+				$y = $DonatePixel[1] + 50
 				ContinueLoop ; go to next button if donate window did not open
 			EndIf
 
@@ -173,7 +229,7 @@ Func DonateCC($Check = False)
 				If $bSkipDonTroops And $bSkipDonSpells Then
 					DonateWindow($bClose)
 					$bDonate = True
-					$y = $DonatePixel[1] - 50
+					$y = $DonatePixel[1] + 50
 					If _Sleep($iDelayDonateCC2) Then ExitLoop
 					ContinueLoop ; go to next button if already donated, maybe this is an impossible case..
 				EndIf
@@ -233,7 +289,7 @@ Func DonateCC($Check = False)
 				If $bSkipDonTroops And $bSkipDonSpells Then
 					DonateWindow($bClose)
 					$bDonate = True
-					$y = $DonatePixel[1] - 50 ; MMHK ; Smart chat donation - donation upward
+					$y = $DonatePixel[1] + 50
 					If _Sleep($iDelayDonateCC2) Then ExitLoop
 					ContinueLoop ; go to next button if already donated max, maybe this is an impossible case..
 				EndIf
@@ -248,14 +304,14 @@ Func DonateCC($Check = False)
 								ElseIf $varDonateCustom[$i][0] > $eLava Then
 									DonateWindow($bClose)
 									$bDonate = True
-									$y = $DonatePixel[1] - 50 ; MMHK ; Smart chat donation - donation upward
+									$y = $DonatePixel[1] + 50
 									If _Sleep($iDelayDonateCC2) Then ExitLoop
 									ContinueLoop ; If "Nothing" is selected then continue
 								EndIf
 								If $varDonateCustom[$i][1] < 1 Then
 									DonateWindow($bClose)
 									$bDonate = True
-									$y = $DonatePixel[1] - 50 ; MMHK ; Smart chat donation - donation upward
+									$y = $DonatePixel[1] + 50
 									If _Sleep($iDelayDonateCC2) Then ExitLoop
 									ContinueLoop ; If donate number is smaller than 1 then continue
 								ElseIf $varDonateCustom[$i][1] > 8 Then
@@ -317,30 +373,38 @@ Func DonateCC($Check = False)
 			DonateWindow($bClose)
 
 			$bDonate = True
-			$y = $DonatePixel[1] - 50 ; MMHK ; Smart chat donation - donation upward
+			$y = $DonatePixel[1] + 50
 			ClickP($aAway, 1, 0, "#0171")
 			If _Sleep($iDelayDonateCC2) Then ExitLoop
+			ContinueLoop ; MMHK ; Smart chat donation
 		EndIf
-		ForceCaptureRegion()
-		$DonatePixel = _MultiPixelSearch3(202-1, 90-1, 202, $y, -1, -1, Hex(0x98D057, 6), $aChatDonateBtnColors, 15) ; MMHK ; Smart chat donation - donation upward, faster search backward
-		If IsArray($DonatePixel) Then
-			If $debugSetlog = 1 Then Setlog("More Donate buttons found, new $DonatePixel: (" & $DonatePixel[0] & "," & $DonatePixel[1] & ")", $COLOR_PURPLE)
-			ContinueLoop
-		EndIf ; MMHK
+		; MMHK ; Smart chat donation
+;~ 		ForceCaptureRegion()
+;~ 		$DonatePixel = _MultiPixelSearch(202, $y, 224, 660 + $bottomOffsetY, 50, 1, Hex(0x98D057, 6), $aChatDonateBtnColors, 15)
+;~ 		If IsArray($DonatePixel) Then
+;~ 			If $debugSetlog = 1 Then Setlog("More Donate buttons found, new $DonatePixel: (" & $DonatePixel[0] & "," & $DonatePixel[1] & ")", $COLOR_PURPLE)
+;~ 			ContinueLoop
+;~ 		Else
+;~ 			If $debugsetlog = 1 Then Setlog("No more Donate buttons found, closing chat ($y=" & $y & ")", $COLOR_PURPLE)
+;~ 		EndIf
 
 		ForceCaptureRegion()
+		;$Scroll = _PixelSearch(288, 640 + $bottomOffsetY, 290, 655 + $bottomOffsetY, Hex(0x588800, 6), 20)
 		$y = 90
 		$Scroll = _PixelSearch(293, 8 + $y, 295, 23 + $y, Hex(0xFFFFFF, 6), 20)
 		If IsArray($Scroll) Then
 			$bDonate = True
 			Click($Scroll[0], $Scroll[1], 1, 0, "#0172")
-			$y = 90 + 90 ; MMHK ; Smart chat donation - limit to top req only after scrolling up
+			$y = 90
 			If _Sleep($iDelayDonateCC2) Then ExitLoop
 			ContinueLoop
 		EndIf
-		If $debugsetlog = 1 Then Setlog("No more Donate buttons found, closing chat ($y=" & $y & ")", $COLOR_PURPLE) ; MMHK
 		$bDonate = False
 	WEnd
+
+	; MMHK ; Smart chat donation
+	FileDelete($dirTemp & "*.bmp")
+    If DirGetSize($dirReq) <> -1 Then DirRemove($dirReq, 1)
 
 	ClickP($aAway, 1, 0, "#0176") ; click away any possible open window
 	If _Sleep($iDelayDonateCC2) Then Return
@@ -541,7 +605,7 @@ If $debugSetlog = 1 Then Setlog($debugOCRdonate,$color_aqua) ; MMHK
 				EndIf
 				If $debugOCRdonate = 0 Then Click(365 + ($Slot * 68), $DonationWindowY + 100 + $YComp, $iDonTroopsQuantity, $iDelayDonateCC3, "#0600")
 			EndIf
-
+			$bDonated = True ; MOD ; MMHK ; Donation limit
 			$bDonate = True
 
 			; Assign the donated quantity troops to train : $Don $TroopName
@@ -590,7 +654,7 @@ If $debugSetlog = 1 Then Setlog($debugOCRdonate,$color_aqua) ; MMHK
 					debugimagesave("LiveDonateCC-r" & $donaterow &"-c"& $donateposinrow&"-" & NameOfTroop($Type) & "_")
 				EndIf
 			If $debugOCRdonate = 0 Then Click(365 + ($Slot * 68), $DonationWindowY + 100 + $YComp, $iDonSpellsQuantity, $iDelayDonateCC3, "#0600")
-
+			$bDonated = True ; MOD ; MMHK ; Donation limit
 			$bDonate = True
 
 			; Assign the donated quantity Spells to train : $Don $SpellName
@@ -629,7 +693,7 @@ Func DonateWindow($Open = True)
 	$iRight += $DonatePixel[0] + 1
 	$iBottom += $DonatePixel[1] + 1
 	ForceCaptureRegion()
-	Local $DonatePixelCheck = _MultiPixelSearch($iLeft, $iTop, $iRight, $iBottom, 1, 1, Hex(0x98D057, 6), $aChatDonateBtnColors, 15) ; MMHK ; Smart chat donation - donation upward, faster search backward
+	Local $DonatePixelCheck = _MultiPixelSearch($iLeft, $iTop, $iRight, $iBottom, 50, 1, Hex(0x98D057, 6), $aChatDonateBtnColors, 15)
 	If IsArray($DonatePixelCheck) Then
 		Click($DonatePixel[0] + 50, $DonatePixel[1] + 10, 1, 0, "#0174")
 	Else

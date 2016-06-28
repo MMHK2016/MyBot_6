@@ -74,5 +74,11 @@ EndIf
 
 IniWriteS($config, "search", "DBMinCollOutsidePercent", GUICtrlRead($txtDBMinCollOutsidePercent))
 
+; Donation limit
+If GUICtrlRead($chkDonLimit) = $GUI_CHECKED Then
+	IniWriteS($config, "donate", "DonLimit", 1)
+Else
+	IniWriteS($config, "donate", "DonLimit", 0)
+EndIf
 
-
+IniWriteS($config, "donate", "DonMaxTimes", GUICtrlRead($txtDonMaxTimes))

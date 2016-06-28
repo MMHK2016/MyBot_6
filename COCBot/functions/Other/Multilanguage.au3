@@ -100,7 +100,7 @@ Func DetectLanguage()
 			Case Hex(0x0404, 4)
 				$decimalCode = '1028'
 				$countryCode = 'zh-TW'
-				$langName = 'Chinese'
+				$langName = 'Taiwanese'	; MMHK
 			Case Hex(0x0405, 4)
 				$decimalCode = '1029'
 				$countryCode = 'cs-CZ'

@@ -164,7 +164,7 @@ Global $chkAttackWeekdays1, $chkAttackWeekdays2, $chkAttackWeekdays3, $chkAttack
 	$lbAttackWeekdays7 = GUICtrlCreateLabel(GetTranslated(603,28, "Sa"), $x + 120, $y, 13, 15)
 	GUICtrlSetTip(-1, GetTranslated(603,29, "Saturday"))
 
-	$lbAttackExit = GUICtrlCreateLabel("Exit", $x + 170, $y) ; MOD ; MMHK
+	$lbAttackExit = GUICtrlCreateLabel(GetTranslated(699,22, "Exit"), $x + 170, $y) ; MOD ; MMHK
 	GUICtrlSetTip(-1, "Close emulater outside of scheduled attack hours." & @CRLF & "Restart emulater when it is back in.")
 
 	$y += 13
@@ -304,39 +304,39 @@ Local $x = 25, $y = 205
 
 ; MOD ; MMHK ; Smart Zap
 Local $x = 238, $y = 185
-	$grpSmartZap = GUICtrlCreateGroup("Smart Zap", $x, $y, 187, 113)
+	$grpSmartZap = GUICtrlCreateGroup(GetTranslated(699,23, "Smart Zap"), $x, $y, 187, 113)
 		$x += 10
 		$y += 15
 		GUICtrlCreateIcon($pIconLib, $eIcnLightSpell, $x, $y, 24, 24)
 		GUICtrlCreateIcon($pIconLib, $eIcnDrill, $x, $y + 27, 24, 24)
 		$y -= 4
-		$chkSmartLightSpell = GUICtrlCreateCheckbox("Lightning dark drills", $x + 30, $y + 7, -1, -1)
-			$txtTip = "Check this to drop Lightning Spells on top of Dark Elixir Drills." & @CRLF & @CRLF & _
-					  "Remember to go to the tab 'troops' and put the maximum capacity " & @CRLF & _
-					  "of your spell factory and the number of spells so that the bot " & @CRLF & _
-					  "can function perfectly."
+		$chkSmartLightSpell = GUICtrlCreateCheckbox(GetTranslated(699,24, "Lightning dark drills"), $x + 30, $y + 7, -1, -1)
+			$txtTip = GetTranslated(699,25, "Check this to drop Lightning Spells on top of Dark Elixir Drills.") & @CRLF & @CRLF & _
+					  GetTranslated(699,26, "Remember to go to the tab 'troops' and put the maximum capacity ") & @CRLF & _
+					  GetTranslated(699,27, "of your spell factory and the number of spells so that the bot ") & @CRLF & _
+					  GetTranslated(699,28, "can function perfectly.")
 			GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetOnEvent(-1, "chkSmartLightSpell")
-		$chkSmartZapDB = GUICtrlCreateCheckbox("Dead bases only", $x + 30, $y + 34, -1, -1)
-			$txtTip = "It is recommended you only zap drills in dead bases as most of the " & @CRLF & _
-					  "Dark Elixir in a live base will be in the storage."
+		$chkSmartZapDB = GUICtrlCreateCheckbox(GetTranslated(699,29, "Dead bases only"), $x + 30, $y + 34, -1, -1)
+			$txtTip = GetTranslated(699,30, "It is recommended you only zap drills in dead bases as most of the ") & @CRLF & _
+					  GetTranslated(699,31, "Dark Elixir in a live base will be in the storage.")
 			GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetState(-1, $GUI_CHECKED)
 			GUICtrlSetState(-1, $GUI_DISABLE)
 			GUICtrlSetOnEvent(-1, "chkSmartZapDB")
-		$lblSmartZap = GUICtrlCreateLabel("Min amount of DE in drills :", $x, $y + 61)
+		$lblSmartZap = GUICtrlCreateLabel(GetTranslated(699,32, "Min amount of DE in drills :"), $x, $y + 61)
 			GUICtrlSetState(-1, $GUI_DISABLE)
 		$txtMinDark = GUICtrlCreateInput("250", $x + 131, $y + 57, 31, 17, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
-		    $txtTip = "The value here depends a lot on what level your Town Hall is, " & @CRLF & _
-					  "and what level drills you most often see."
+		    $txtTip = GetTranslated(699,33, "The value here depends a lot on what level your Town Hall is, ") & @CRLF & _
+					  GetTranslated(699,34, "and what level drills you most often see.")
 			GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetLimit(-1, 4)
 			GUICtrlSetState(-1, $GUI_DISABLE)
 			GUICtrlSetOnEvent(-1, "txtMinDark")
-		$chkSmartZapSaveHeroes = GUICtrlCreateCheckbox("Don't zap when TH Snipe + Hero", $x, $y + 75, -1, -1)
-			$txtTip = "This will stop SmartZap from zapping a base on a Town Hall Snipe " & @CRLF & _
-					  "if your heroes were deployed. " & @CRLF & @CRLF & _
-					  "This protects their health so they will be ready for battle sooner!"
+		$chkSmartZapSaveHeroes = GUICtrlCreateCheckbox(GetTranslated(699,35, "Don't zap when TH Snipe + Hero"), $x, $y + 75, -1, -1)
+			$txtTip = GetTranslated(699,36, "This will stop SmartZap from zapping a base on a Town Hall Snipe ") & @CRLF & _
+					  GetTranslated(699,37, "if your heroes were deployed. ") & @CRLF & @CRLF & _
+					  GetTranslated(699,38, "This protects their health so they will be ready for battle sooner!")
 			GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetState(-1, $GUI_CHECKED)
 			GUICtrlSetState(-1, $GUI_DISABLE)

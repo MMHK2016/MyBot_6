@@ -23,6 +23,9 @@ Global $iTrainOfflineTime = 0, $iMinTime = 2, $iExtraTime = 0 ; minutes
 ;; move the Request CC Troops function to the beginning of the run loop
 Global $bReqCCFirst = False
 
+;; Donation limit
+Global $bDonated = False, $bDonLimit = False, $iDonMaxTimes = 2
+
 #region SmartZap
 ; GUI variables
 Global $ichkSmartZap = 0
@@ -35,20 +38,10 @@ Global $smartZapGain = 0, $numLSpellsUsed = 0
 Global $iOldsmartZapGain = 0, $iOldNumLTSpellsUsed = 0
 
 ; Array to hold Total Amount of DE available from Drill at each level (1-6)
-Global Const $drillLevelHold[6] = [120, _
-								   225, _
-								   405, _
-								   630, _
-								   960, _
-								   1350]
+Global Const $drillLevelHold[6] = [120, 225, 405, 630, 960, 1350]
 
 ; Array to hold Amount of DE available to steal from Drills at each level (1-6)
-Global Const $drillLevelSteal[6] = [59, _
-                                    102, _
-								    172, _
-								    251, _
-								    343, _
-								    479]
+Global Const $drillLevelSteal[6] = [59, 102, 172, 251, 343, 479]
 #endregion
 
 #region Check Collectors Outside

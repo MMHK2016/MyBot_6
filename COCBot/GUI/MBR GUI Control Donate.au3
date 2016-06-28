@@ -539,3 +539,19 @@ Func _DonateControlsSpell($TroopType)
 		If BitAND(GUICtrlGetState($aTxtBlacklistControlsSpell[$i]), $GUI_DISABLE) = $GUI_DISABLE Then GUICtrlSetState($aTxtBlacklistControlsSpell[$i], $GUI_ENABLE)
 	Next
 EndFunc   ;==>_DonateControlsSpell
+
+; MOD ; MMHK
+; Donation limit ---------------------------------------------------------------------------------------------------------------------
+Func chkDonLimit()
+	If GUICtrlRead($chkDonLimit) = $GUI_CHECKED Then
+		$bDonLimit = True
+		GUICtrlSetState($txtDonMaxTimes, $GUI_ENABLE)
+	Else
+		$bDonLimit = False
+		GUICtrlSetState($txtDonMaxTimes, $GUI_DISABLE)
+	EndIf
+EndFunc   ;==>chkDonLimit
+
+Func txtDonMaxTimes()
+	$iDonMaxTimes = GUICtrlRead($txtDonMaxTimes)
+EndFunc   ;==>txtDonMaxTimes

@@ -152,13 +152,13 @@ Local $txtFull = GetTranslated(626,30, "Full")
 			GUICtrlSetState($sldCollectorTolerance, $GUI_HIDE)
 		EndIf
 	$y += 25 ; MOD ; MMHK ; Check Collectors Outside
-		$chkDBMeetCollOutside = GUICtrlCreateCheckbox("Collectors outside", $x, $y, -1, -1)
-			$txtTip = "Search for bases that has their collectors outside."
+		$chkDBMeetCollOutside = GUICtrlCreateCheckbox(GetTranslated(699,39, "Collectors outside"), $x, $y, -1, -1)
+			$txtTip = GetTranslated(699,40, "Search for bases that has their collectors outside.")
 			GUICtrlSetOnEvent(-1, "chkDBMeetCollOutside")
 			GUICtrlSetTip(-1, $txtTip)
-		GUICtrlCreateLabel("Min: ", $x + 120, $y + 4, -1, -1)
+		GUICtrlCreateLabel(GetTranslated(699,41, "Min") & ": ", $x + 120, $y + 4, -1, -1)
 		$txtDBMinCollOutsidePercent = GUICtrlCreateInput("50", $x + 143, $y, 31, 20, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
-			$txtTip = "Set the Min. % of collectors outside to search for on a village to attack."
+			$txtTip = GetTranslated(699,42, "Set the Min. % of collectors outside to search for on a village to attack.")
 			GUICtrlSetTip(-1, $txtTip)
 			_GUICtrlEdit_SetReadOnly(-1, True)
 			GUICtrlSetLimit(-1, 3)

@@ -89,3 +89,14 @@ chkDBMeetCollOutside()
 
 GUICtrlSetData($txtDBMinCollOutsidePercent, $iDBMinCollOutsidePercent)
 
+; Donation limit
+If ($bDonLimit) Then
+	GUICtrlSetState($chkDonLimit, $GUI_CHECKED)
+	GUICtrlSetState($txtDonMaxTimes, $GUI_ENABLE)
+Else
+	GUICtrlSetState($chkDonLimit, $GUI_UNCHECKED)
+	GUICtrlSetState($txtDonMaxTimes, $GUI_DISABLE)
+EndIf
+
+GUICtrlSetData($txtDonMaxTimes, $iDonMaxTimes)
+

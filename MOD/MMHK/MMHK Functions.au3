@@ -28,3 +28,6 @@
 
 ; Check Collectors Outside
 #include "functions\AreCollectorsOutside.au3"
+
+; Smart donate
+#include "functions\_GDIPlus_ImageCompare.au3"

@@ -134,31 +134,31 @@ Local $x = $xStart + 20, $y = $yStart +  75 + 25
 			GUICtrlSetState(-1, $GUI_HIDE)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
-; MOD ; MMHK ; Offline while training ; not use GetTranslated coz official will get ride of them
+; MOD ; MMHK ; Offline while training
 Local $x = $xStart + 5, $y = $yStart + 316
-	$grpMisc = GUICtrlCreateGroup("While Training", $x, $y, 428, 43)
+	$grpMisc = GUICtrlCreateGroup(GetTranslated(699,12, "While Training"), $x, $y, 428, 43)
 		$x += 8
 		$y += 17
-		$chkTrainOffline = GUICtrlCreateCheckbox("Stay offline, if longer than", $x, $y, -1, -1)
-			GUICtrlSetTip(-1, "Close COC till training finished.")
+		$chkTrainOffline = GUICtrlCreateCheckbox(GetTranslated(699,13, "Stay offline, if longer than"), $x, $y, -1, -1)
+			GUICtrlSetTip(-1, GetTranslated(699,14, "Close COC till training finished."))
 			GUICtrlSetOnEvent(-1, "chkTrainOffline")
 		$txtMinTime = GUICtrlCreateInput("2", $x + 138, $y + 2, 30, 16, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
-			GUICtrlSetTip(-1, "Close COC when troops training time is longer than this number.")
+			GUICtrlSetTip(-1, GetTranslated(699,15, "Close COC when troops training time is longer than this number."))
 			GUICtrlSetLimit(-1, 2)
 			GUICtrlSetState(-1,$GUI_DISABLE)
 			GUICtrlSetOnEvent(-1, "txtMinTime")
-	    $lblMinTime = GUICtrlCreateLabel("Min.", $x + 171, $y + 4, -1, -1)
+	    $lblMinTime = GUICtrlCreateLabel(GetTranslated(699,16, "Min."), $x + 171, $y + 4, -1, -1)
 		$x += 202
-	    $lblExtraTime = GUICtrlCreateLabel("Add extra random", $x, $y + 4, -1, -1)
+	    $lblExtraTime = GUICtrlCreateLabel(GetTranslated(699,17, "Add extra random"), $x, $y + 4, -1, -1)
 		$txtExtraTime = GUICtrlCreateInput("0", $x + 86, $y + 2, 30, 16, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
-			GUICtrlSetTip(-1, "Add max random extra offline time.")
+			GUICtrlSetTip(-1, GetTranslated(699,18, "Add max random extra offline time."))
 			GUICtrlSetLimit(-1, 2)
 			GUICtrlSetState(-1,$GUI_DISABLE)
 			GUICtrlSetOnEvent(-1, "txtExtraTime")
-	    $lblExtraTime = GUICtrlCreateLabel("Min,", $x + 119, $y + 4, -1, -1)
+	    $lblExtraTime = GUICtrlCreateLabel(GetTranslated(699,19, "Min,"), $x + 119, $y + 4, -1, -1)
 		$x += 152
-		$chkDisconnectedNaturally = GUICtrlCreateCheckbox("Inactivity", $x, $y, -1, -1)
-			GUICtrlSetTip(-1, "Disconnect COC naturally sometimes.")
+		$chkDisconnectedNaturally = GUICtrlCreateCheckbox(GetTranslated(699,20, "Inactivity"), $x, $y, -1, -1)
+			GUICtrlSetTip(-1, GetTranslated(699,21, "Disconnect COC naturally sometimes."))
 			GUICtrlSetState(-1,$GUI_DISABLE)
 			GUICtrlSetOnEvent(-1, "chkDisconnectedNaturally")
     GUICtrlCreateGroup("", -99, -99, 1, 1)

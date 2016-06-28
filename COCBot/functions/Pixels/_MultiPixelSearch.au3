@@ -75,38 +75,6 @@ Func _MultiPixelSearch2($iLeft, $iTop, $iRight, $iBottom, $xSkip, $ySkip, $first
 	Return 0
 EndFunc   ;==>_MultiPixelSearch2
 
-; rotate y first, x second: search in columns BACKWARD ; MMHK ; Smart chat donation - donation upward, search faster backward
-Func _MultiPixelSearch3($iLeft, $iTop, $iRight, $iBottom, $xSkip, $ySkip, $firstColor, $offColor, $iColorVariation)
-	_CaptureRegion($iLeft, $iTop, $iRight+1, $iBottom) ; +1 here not parameters themself to save one cycle of loops which is not needed
-	Local $offColorVariation = UBound($offColor, 2) > 3
-	For $x = $iRight - $iLeft To 0 Step $xSkip
-		For $y = $iBottom - $iTop To 0 Step $ySkip
-			If _ColorCheck(_GetPixelColor($x, $y), $firstColor, $iColorVariation) Then
-				If $debugSetlog = 1 Then setlog("Target pixel found at: (" & $x & "," & $y & ")", $COLOR_PURPLE)
-				Local $allchecked = True
-				Local $iCV = $iColorVariation
-				For $i = 0 To UBound($offColor) - 1
-					If $offColorVariation = True Then $iCV = $offColor[$i][3]
-					If _ColorCheck(_GetPixelColor($x + $offColor[$i][1], $y + $offColor[$i][2]), Hex($offColor[$i][0], 6), $iCV) = False Then
-						$allchecked = False
-						If $debugSetlog = 1 Then
-							setlog("offPixel failed: " & Hex($offColor[$i][0], 6), $COLOR_PURPLE)
-							setlog("offPixel got: " & Hex(_GetPixelColor($x + $offColor[$i][1], $y + $offColor[$i][2]), 6), $COLOR_PURPLE)
-						EndIf
-						ExitLoop
-					EndIf
-				If $debugSetlog = 1 Then setlog("offPixel found: " & Hex($offColor[$i][0], 6), $COLOR_PURPLE)
-				Next
-				If $allchecked Then
-					Local $Pos[2] = [$iLeft + $x, $iTop + $y]
-					Return $Pos
-				EndIf
-			EndIf
-		Next
-	Next
-	Return 0
-EndFunc   ;==>_MultiPixelSearch3
-
 Func WaitforPixel($iLeft, $iTop, $iRight, $iBottom, $firstColor, $iColorVariation, $maxDelay = 10) ; $maxDelay is in 1/2 second
 	For $i = 1 To $maxDelay * 10
 		$result = _PixelSearch($iLeft, $iTop, $iRight, $iBottom, $firstColor, $iColorVariation)

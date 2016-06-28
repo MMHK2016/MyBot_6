@@ -30,8 +30,8 @@ $hGUI_DONATE_TAB_ITEM1 = GUICtrlCreateTabItem(GetTranslated(600,11,"Request Troo
 			GUICtrlSetState(-1, $GUI_DISABLE)
 			GUICtrlSetTip(-1, GetTranslated(611,4, "This text is used on your request for troops in the Clan chat."))
 		; MOD ; MMHK ; move the Request CC Troops function to the beginning of the run loop
-		$chkReqCCFirst = GUICtrlCreateCheckbox("Early", $x+40+30+214+10, $y-6)
-			GUICtrlSetTip(-1, "Request troops at the beginning of the run loop")
+		$chkReqCCFirst = GUICtrlCreateCheckbox(GetTranslated(699,1, "Early"), $x+40+30+214+10, $y-6)
+			GUICtrlSetTip(-1, GetTranslated(699,2, "Request troops at the beginning of the run loop"))
 			GUICtrlSetState(-1, $GUI_DISABLE)
 			GUICtrlSetOnEvent(-1, "chkReqCCFirst")
 
@@ -353,6 +353,18 @@ $x += $Offx
 	$y += 75
 	$chkExtraAlphabets = GUICtrlCreateCheckbox(GetTranslated(612,25, "Enable Cyrillic Alphabet Recognition"), $x - 15 , $y +175, -1, -1)
 	GUICtrlSetTip(-1, GetTranslated(612,26, "Check this to enable the Cyrillic Alphabet."))
+
+	; MOD ; MMHK ; Donation limit
+	$chkDonLimit = GUICtrlCreateCheckbox(GetTranslated(699,3, "Limited to max"), $x + 208 , $y + 175, -1, -1)
+		GUICtrlSetTip(-1,GetTranslated(699,4, "Limit donation every round."))
+		GUICtrlSetOnEvent(-1, "chkDonLimit")
+	$txtDonMaxTimes = GUICtrlCreateInput("2", $x + 295, $y + 175 + 3, 30, 16, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+		GUICtrlSetTip(-1, GetTranslated(699,5, "Stop donation when this number is reached every donation round."))
+		GUICtrlSetLimit(-1, 2)
+		GUICtrlSetState(-1,$GUI_DISABLE)
+		GUICtrlSetOnEvent(-1, "txtDonMaxTimes")
+	$lblDonMaxTimes = GUICtrlCreateLabel(GetTranslated(699,6, "times per round"), $x + 329, $y + 175 + 4, -1, -1)
+
 	$grpBarbarians = GUICtrlCreateGroup($sTxtBarbarians, $x - 20, $y - 20, 430, 190)
 		$x -= 10
 		$picDonateBarbarians = GUICtrlCreateIcon($pIconLib, $eIcnDonBarbarian, $x + 215, $y, 64, 64, $BS_ICON)

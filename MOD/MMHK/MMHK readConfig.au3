@@ -54,4 +54,11 @@ EndIf
 $ichkDBMeetCollOutside = IniRead($config, "search", "DBMeetCollOutside", "0")
 $iDBMinCollOutsidePercent = IniRead($config, "search", "DBMinCollOutsidePercent", "50")
 
+; Donation limit
+If IniRead($config, "donate", "DonLimit", "0") = 1 Then
+	$bDonLimit = True
+Else
+	$bDonLimit = False
+EndIf
 
+$iDonMaxTimes = IniRead($config, "donate", "DonMaxTimes", "2")
