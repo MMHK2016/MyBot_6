@@ -32,6 +32,7 @@ Global $ichkSmartZap = 0
 Global $ichkSmartZapDB = 1
 Global $ichkSmartZapSaveHeroes = 1
 Global $itxtMinDE = 250
+Global $bDumbZap = True
 
 ; stats
 Global $smartZapGain = 0, $numLSpellsUsed = 0

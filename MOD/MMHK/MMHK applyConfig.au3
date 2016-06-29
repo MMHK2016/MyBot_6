@@ -50,12 +50,20 @@ If $ichkSmartZap = 1 Then
 	GUICtrlSetState($chkSmartZapSaveHeroes, $GUI_ENABLE)
 	GUICtrlSetState($txtMinDark, $GUI_ENABLE)
 	GUICtrlSetState($lblSmartZap, $GUI_ENABLE)
+	GUICtrlSetState($chkDumbZap, $GUI_ENABLE)
 Else
 	GUICtrlSetState($chkSmartLightSpell, $GUI_UNCHECKED)
 	GUICtrlSetState($chkSmartZapDB, $GUI_DISABLE)
 	GUICtrlSetState($chkSmartZapSaveHeroes, $GUI_DISABLE)
 	GUICtrlSetState($txtMinDark, $GUI_DISABLE)
 	GUICtrlSetState($lblSmartZap, $GUI_DISABLE)
+	GUICtrlSetState($chkDumbZap, $GUI_DISABLE)
+EndIf
+
+If ($bDumbZap) Then
+	GUICtrlSetState($chkDumbZap, $GUI_CHECKED)
+Else
+	GUICtrlSetState($chkDumbZap, $GUI_UNCHECKED)
 EndIf
 
 If $ichkSmartZapDB = 1 Then

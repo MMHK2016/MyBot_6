@@ -44,6 +44,12 @@ Else
 	IniWriteS($config, "attack", "UseSmartZap", 0)
 EndIf
 
+If GUICtrlRead($chkDumbZap) = $GUI_CHECKED Then
+	IniWriteS($config, "attack", "DumbZap", 1)
+Else
+	IniWriteS($config, "attack", "DumbZap", 0)
+EndIf
+
 If GUICtrlRead($chkSmartZapDB) = $GUI_CHECKED Then
 	IniWriteS($config, "attack", "ZapDBOnly", 1)
 Else

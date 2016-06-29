@@ -310,13 +310,19 @@ Local $x = 238, $y = 185
 		GUICtrlCreateIcon($pIconLib, $eIcnLightSpell, $x, $y, 24, 24)
 		GUICtrlCreateIcon($pIconLib, $eIcnDrill, $x, $y + 27, 24, 24)
 		$y -= 4
-		$chkSmartLightSpell = GUICtrlCreateCheckbox(GetTranslated(699,24, "Lightning dark drills"), $x + 30, $y + 7, -1, -1)
+		$chkSmartLightSpell = GUICtrlCreateCheckbox(GetTranslated(699,24, "Lightning"), $x + 30, $y + 7, -1, -1)
 			$txtTip = GetTranslated(699,25, "Check this to drop Lightning Spells on top of Dark Elixir Drills.") & @CRLF & @CRLF & _
 					  GetTranslated(699,26, "Remember to go to the tab 'troops' and put the maximum capacity ") & @CRLF & _
 					  GetTranslated(699,27, "of your spell factory and the number of spells so that the bot ") & @CRLF & _
 					  GetTranslated(699,28, "can function perfectly.")
 			GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetOnEvent(-1, "chkSmartLightSpell")
+		$chkDumbZap = GUICtrlCreateCheckbox(GetTranslated(699,43, "Dumb"), $x + 116, $y + 7, -1, -1)
+			$txtTip = GetTranslated(699,44, "Check this to zap freely when you don't care about elixir.")
+			GUICtrlSetTip(-1, $txtTip)
+			GUICtrlSetState(-1, $GUI_CHECKED)
+			GUICtrlSetState(-1, $GUI_DISABLE)
+			GUICtrlSetOnEvent(-1, "chkDumbZap")
 		$chkSmartZapDB = GUICtrlCreateCheckbox(GetTranslated(699,29, "Dead bases only"), $x + 30, $y + 34, -1, -1)
 			$txtTip = GetTranslated(699,30, "It is recommended you only zap drills in dead bases as most of the ") & @CRLF & _
 					  GetTranslated(699,31, "Dark Elixir in a live base will be in the storage.")

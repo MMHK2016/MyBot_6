@@ -346,15 +346,25 @@ Func chkSmartLightSpell()
 		GUICtrlSetState($chkSmartZapSaveHeroes, $GUI_ENABLE)
 		GUICtrlSetState($txtMinDark, $GUI_ENABLE)
 		GUICtrlSetState($lblSmartZap, $GUI_ENABLE)
+		GUICtrlSetState($chkDumbZap, $GUI_ENABLE)
 		$ichkSmartZap = 1
 	Else
 		GUICtrlSetState($chkSmartZapDB, $GUI_DISABLE)
 		GUICtrlSetState($chkSmartZapSaveHeroes, $GUI_DISABLE)
 		GUICtrlSetState($txtMinDark, $GUI_DISABLE)
 		GUICtrlSetState($lblSmartZap, $GUI_DISABLE)
+		GUICtrlSetState($chkDumbZap, $GUI_DISABLE)
 		$ichkSmartZap = 0
 	EndIf
  EndFunc   ;==>chkSmartLightSpell
+
+Func chkDumbZap()
+	If GUICtrlRead($chkDumbZap) = $GUI_CHECKED Then
+		$bDumbZap = True
+	Else
+		$bDumbZap = False
+	EndIf
+EndFunc   ;==>chkDumbZap
 
 Func chkSmartZapDB()
 	If GUICtrlRead($chkSmartZapDB) = $GUI_CHECKED Then

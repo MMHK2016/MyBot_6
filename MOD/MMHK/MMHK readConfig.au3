@@ -43,6 +43,12 @@ $ichkSmartZapDB = Number(IniRead($config, "attack", "ZapDBOnly", "1"))
 $ichkSmartZapSaveHeroes = Number(IniRead($config, "attack", "THSnipeSaveHeroes", "1"))
 $itxtMinDE = Number(IniRead($config, "attack", "MinDE", "250"))
 
+If IniRead($config, "attack", "DumbZap", "1") = 1 Then
+	$bDumbZap = True
+Else
+	$bDumbZap = False
+EndIf
+
 ; Move the Request CC Troops function to the beginning of the run loop
 If IniRead($config, "planned", "ReqCCFirst", "0") = 1 Then
 	$bReqCCFirst = True
