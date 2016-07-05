@@ -68,3 +68,6 @@ Else
 EndIf
 
 $iDonMaxTimes = IniRead($config, "donate", "DonMaxTimes", "2")
+
+; GTFO
+$iCurInterval = $icmbHoursStop

@@ -692,7 +692,7 @@ Func DetectLanguage()
 			Case Hex(0x0C04, 4)
 				$decimalCode = '3076'
 				$countryCode = 'zh-HK'
-				$langName = 'Chinese'
+				$langName = 'Taiwanese'	; MMHK
 			Case Hex(0x0C07, 4)
 				$decimalCode = '3079'
 				$countryCode = 'de-AT'
@@ -992,7 +992,7 @@ Func DetectLanguage()
 			Case Hex(0x7C04, 4)
 				$decimalCode = '31748'
 				$countryCode = 'zh-CHT'
-				$langName = 'Chinese'
+				$langName = 'Taiwanese'	; MMHK
 			Case Else
 				SetLog("Your computer's language was not recognized.")
 				$langName = "NONE"

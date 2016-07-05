@@ -43,7 +43,7 @@ Func chkShieldStatus($bChkShield = True, $bForceChkPBT = False)
 
 			$aShieldStatus = $Result ; update ShieldStatus global values
 
-			If $iChkBotStop = 1 And $icmbBotCond >= 19 Then ; is Halt mode enabled and With Shield selected?
+			If $iChkBotStop = 1 And $icmbBotCond >= 19 And $icmbBotCond <= 21 Then ; is Halt mode enabled and With Shield selected? ; MOD ; MMHK ; GTFO
 				If $aShieldStatus[0] = "shield" Then ; verify shield
 					Setlog("Shield found, Halt Attack Now!", $COLOR_BLUE)
 					$bWaitShield = True

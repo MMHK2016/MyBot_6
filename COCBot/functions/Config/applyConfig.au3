@@ -1671,8 +1671,8 @@ EndIf
 
 	_GUICtrlComboBox_SetCurSel($cmbBotCommand, $icmbBotCommand)
 	_GUICtrlComboBox_SetCurSel($cmbBotCond, $icmbBotCond)
+	cmbBotCond() ; MMHK
 	_GUICtrlComboBox_SetCurSel($cmbHoursStop, $icmbHoursStop)
-	cmbBotCond()
 
 	GUICtrlSetData($txtTimeWakeUp, $sTimeWakeUp)
 

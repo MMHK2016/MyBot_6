@@ -204,20 +204,6 @@ Func getRemainTLaboratory($x_start, $y_start) ; read actual time remaining in La
 	Return getOcrAndCapture("coc-RemainLaboratory", $x_start, $y_start, 192, 24)
 EndFunc   ;==>getRemainTLaboratory
 
-; MOD function ; MMHK
-; Offline while training
-Func getOcrTroopsTime($x_start, $y_start) ; MMHK -> Get the Time until troops done training
-	Return getOcrAndCapture("coc-RemainTrain", $x_start, $y_start, 70, 11, True)
-EndFunc   ;==>getOcrTroopsTime
-
-Func getOcrSpellsTime($x_start, $y_start) ; MMHK -> Get the Time until spells done brewing
-	Return getOcrAndCapture("coc-RemainTrain", $x_start, $y_start, 70, 11, True)
-EndFunc   ;==>getOcrSpellsTime
-
-Func getOcrLabTime($x_start, $y_start) ; MMHK -> Get the Time until lab done upgrading
-	Return getOcrAndCapture("coc-RemainLaboratory", $x_start, $y_start, 192, 22, True)
-EndFunc   ;==>getOcrLabTime
-
 Func getOcrAndCapture($language, $x_start, $y_start, $width, $height, $removeSpace = False)
 	_CaptureRegion2($x_start, $y_start, $x_start + $width, $y_start + $height)
 	Local $result = getOcr($hHBitmap2, $language)

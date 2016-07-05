@@ -1,6 +1,17 @@
+* **V6.1.4.MMHK.v6.6.2**
+ * Upgrade MyBot v6.1.4
+ * Add GTFO - Dedicated donation; Kick NEW members donated or received more than 35 or from last page of list; Adjustable frequencies
+ * Improve Smart chat donation - stay at first page wait for new request after scroll
+ * Improve Smart chat donation - learning ability, limited saved req images, compare backward
+ * Fix Traditional Chinese, Hong Kong system language detection
+ * Fix GTFO kick minutes not accurate
+ * Fix GTFO interval GUI change back to index 1 error when start bot
+ * Update Chinese.ini
+ * Move mod codes under a clean MOD directory - OCR
+
 * **V6.1.3.MMHK.v6.5.2**
- * Add "Dumb Zap" option - used when you don't care about elixir
- * Fix smart zap gain 0 error when it thought it had dropped lightnings
+ * Add "Dumb Zap" option - zap any drills, trigger limited by total DE available to be stolen (in settings), use it when you don't care about elixir
+ * Fix smart zap gain 0 error - actually did not drop lightnings
 
 * **V6.1.3.MMHK.v6.5.0**
  * Upgrade MyBot v6.1.3

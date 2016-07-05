@@ -88,6 +88,8 @@ Func BotCommand()
 					$bTrainEnabled = False
 					$bDonationEnabled = False
 				EndIf
+			Case 22 ; MOD ; MMHK ; GTFO
+				$MeetCondStop = True
 		EndSwitch
 
 		If $MeetCondStop Then
@@ -101,6 +103,8 @@ Func BotCommand()
 						SetLog("Halt Attack, Stay Online/Collect...", $COLOR_BLUE)
 					ElseIf $bTrainEnabled = False Then
 						SetLog("Halt Attack, Stay Online/Collect/Donate...", $COLOR_BLUE)
+					ElseIf $icmbBotCond = 22 Then ; MOD ; MMHK ; GTFO
+						SetLog("Halt Attack, GTFO...", $COLOR_FUCHSIA)
 					Else
 						SetLog("Halt Attack, Stay Online/Train/Collect/Donate...", $COLOR_BLUE)
 					EndIf

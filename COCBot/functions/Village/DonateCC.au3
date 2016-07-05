@@ -53,15 +53,20 @@ Func DonateCC($Check = False)
 
 	Local $y = 90
 
-	;check for new chats first
-	If $Check = True Then
-		If _ColorCheck(_GetPixelColor(26, 312 + $midOffsetY, True), Hex(0xf00810, 6), 20) = False And $CommandStop <> 3 Then
-			Return ;exit if no new chats
+	If $icmbBotCond <> 22 Then ; MOD ; MMHK ; GTFO
+		;check for new chats first
+		If $Check = True Then
+			If _ColorCheck(_GetPixelColor(26, 312 + $midOffsetY, True), Hex(0xf00810, 6), 20) = False And $CommandStop <> 3 Then
+				Return ;exit if no new chats
+			EndIf
 		EndIf
 	EndIf
 
 	ClickP($aAway, 1, 0, "#0167") ;Click Away
 	Setlog("Checking for Donate Requests in Clan Chat", $COLOR_BLUE)
+	If $icmbBotCond = 22 Then
+		SetLog("GTFO Intervals - Train: " & $aIntervals[$iCurInterval][0] & " Mins, Kick: " & $aIntervals[$iCurInterval][1] & " Mins, " & $aIntervals[$iCurInterval][2] & " Kicks", $COLOR_FUCHSIA)
+	EndIf
 
 	ForceCaptureRegion()
 	If _CheckPixel($aChatTab, $bCapturePixel) = False Then ClickP($aOpenChat, 1, 0, "#0168") ; Clicks chat tab
@@ -71,7 +76,10 @@ Func DonateCC($Check = False)
 
 	checkAttackDisable($iTaBChkIdle) ; Early Take-A-Break detection ; MMHK ; Smart chat donation
 
-	Local $iPosY, $Date, $Time, $dirReq = $dirTemp & "Req\", $DonateFile, $pBitmap1, $pBitmap2, $aFileList, $aImgDiff, $iDonTimes = 0 ; MMHK ; Smart chat donation
+	Local $iPosY, $Date, $Time, $dirReq = $dirTemp & "Req\", $DonateFile, $pBitmap1, $pBitmap2, $aFileList, $aImgDiff, $iDonTimes = 0, $iMaxReqSaved = 25 ; MMHK ; Smart chat donation
+	Local $bScrollAllowed = True, $hDonateTime = TimerInit(), $iMaxDonateTime = $aIntervals[$iCurInterval][0] * 60 * 1000 ; MOD ; MMHK ; GTFO
+	Local $iRateGTFO = TimerInit(), $iRateGTFOLimit = $aIntervals[$iCurInterval][1] * 60 * 1000 ; MOD ; MMHK ; GTFO
+
 	$bDonated = False ; reset when DonateCC() called
 
 	Local $Scroll
@@ -116,7 +124,7 @@ Func DonateCC($Check = False)
 
 			$aFileList = _FileListToArrayRec($dirReq, "*.bmp", 1, 0, 1)
 			If Not @error And IsArray($aFileList) Then
-				For $i = 1 To $aFileList[0]
+				For $i = $aFileList[0] To 1 Step -1
 					$pBitmap2 = _GDIPlus_BitmapCreateFromFile($dirReq & $aFileList[$i])
 					$aImgDiff = _GDIPlus_ImageCompare($pBitmap1, $pBitmap2, False)
 					_GDIPlus_BitmapDispose($pBitmap2)
@@ -126,7 +134,11 @@ Func DonateCC($Check = False)
 							_GDIPlus_BitmapDispose($pBitmap1)
 							_GDIPlus_BitmapDispose($hBitmap)
 							$bDonate = True
-							$y = 680
+							If $bScrollAllowed Then ; MOD ; MMHK ; GTFO
+								$y = 680
+							Else
+								$y = $DonatePixel[1] + 50
+							EndIf
 							ContinueLoop 2
 						EndIf
 						If $debugsetlog = 1 Then Setlog("Image does not matche with " & $i, $COLOR_PURPLE)
@@ -134,6 +146,7 @@ Func DonateCC($Check = False)
 						If $debugsetlog = 1 Then Setlog("Images comparing error ..." & @error, $COLOR_PURPLE)
 					EndIf
 				Next
+				If $aFileList[0] > $iMaxReqSaved Then FileDelete($dirReq & $aFileList[1])
 			Else
 				If $debugsetlog = 1 And @error = 1 Then Setlog("Create dir for the first req image", $COLOR_PURPLE)
 			EndIf
@@ -392,13 +405,33 @@ Func DonateCC($Check = False)
 		;$Scroll = _PixelSearch(288, 640 + $bottomOffsetY, 290, 655 + $bottomOffsetY, Hex(0x588800, 6), 20)
 		$y = 90
 		$Scroll = _PixelSearch(293, 8 + $y, 295, 23 + $y, Hex(0xFFFFFF, 6), 20)
-		If IsArray($Scroll) Then
+		If IsArray($Scroll) And $bScrollAllowed Then
 			$bDonate = True
 			Click($Scroll[0], $Scroll[1], 1, 0, "#0172")
 			$y = 90
 			If _Sleep($iDelayDonateCC2) Then ExitLoop
 			ContinueLoop
 		EndIf
+
+		; MOD ; MMHK ; GTFO
+		If $icmbBotCond = 22 And $bScrollAllowed Then SetLog("GTFO Donate Waiting... ", $COLOR_FUCHSIA)
+		If $icmbBotCond = 22 And TimerDiff($hDonateTime) < $iMaxDonateTime Then
+			$bDonate = True
+			$bScrollAllowed = False
+			ClickP($aClanTab, 1, 0, "#0169")
+			If TimerDiff($iRateGTFO) > $iRateGTFOLimit Then
+				ClickP($aClanInfoBtn, 1, 0, "#0470")
+				If _Sleep($iDelayDonateCC2) Then ExitLoop
+				GTFO()
+				$iRateGTFO = TimerInit()
+				$bScrollAllowed = True
+			EndIf
+			$y = 90
+			If _Sleep($iDelayDonateCC2) Then ExitLoop
+			ContinueLoop
+		EndIf
+		If $icmbBotCond = 22 Then SetLog("GTFO Go Training... ", $COLOR_FUCHSIA)
+
 		$bDonate = False
 	WEnd
 

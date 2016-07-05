@@ -13,6 +13,9 @@
 ; Example .......: None
 #ce ===============================================================================================================================
 
+; GENERAL
+#include "functions\getOcr2.au3"
+
 ; Close the emulator when attacks not scheduled
 #include "functions\_SleepStatus2.au3"
 #include "functions\_TicksToDay.au3"
@@ -31,3 +34,6 @@
 
 ; Smart donate
 #include "functions\_GDIPlus_ImageCompare.au3"
+
+; GTFO
+#include "functions\Clan.au3"

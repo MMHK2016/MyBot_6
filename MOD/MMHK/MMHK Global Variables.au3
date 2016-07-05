@@ -13,18 +13,74 @@
 ; Example .......: None
 #ce ===============================================================================================================================
 
-;; Close the emulator when attacks not scheduled
+; SCREEN COORDINATES
+Global $aClickAway[2] = [222, 22] ; Click Away
+Global $aClanInfoBtn[2] = [100, 60] ; Clan Info Button, Chat Window, Main Screen
+Global $aMyClanTab[2] = [360, 80] ; My Clan Tab, Info Window, Main Screen
+Global $iColorNew = 0xE73838 ; Color of "New" member status
+Global $iNMSearchFromY ; New Member - search from Y
+Global $iNMScrollTimes ; New Member - page scroll times
+Global $aKickOKBtn[2] = [520, 240] ; Kick OK Btn, My Clan Tab, Info Window, Main Screen
+
+; DELAY TIMES
+Global Const $iDelayGTFO1 = 200
+Global Const $iDelayGTFO2 = 1000
+Global Const $iDelayKick1 = 300
+
+; Close the emulator when attacks not scheduled
 Global $bAttackExit = False
 
-;; Offline while training
+; Offline while training
 Global $bTrainOffline = False, $bDisconnectedNaturally = False
 Global $iTrainOfflineTime = 0, $iMinTime = 2, $iExtraTime = 0 ; minutes
 
-;; move the Request CC Troops function to the beginning of the run loop
+; move the Request CC Troops function to the beginning of the run loop
 Global $bReqCCFirst = False
 
-;; Donation limit
+; Donation limit
 Global $bDonated = False, $bDonLimit = False, $iDonMaxTimes = 2
+
+#region GTFO
+; GTFO
+Global $iCurInterval = 1
+Global Const $aIntervals[25][3] = [	[5,1,1], _
+									[5,1,1], _
+									[5,1,2], _
+									[5,1,3], _
+									[5,2,1], _
+									[5,2,2], _
+									[5,2,3], _
+									[5,3,1], _
+									[5,3,2], _
+									[5,3,3], _
+									[5,3,4], _
+									[5,5,0], _
+									[15,1,1], _
+									[15,1,2], _
+									[15,1,3], _
+									[15,3,1], _
+									[15,3,2], _
+									[15,3,3], _
+									[15,5,1], _
+									[15,5,2], _
+									[15,5,3], _
+									[15,10,3], _
+									[15,10,5], _
+									[15,10,10], _
+									[15,15,0]]
+Global $sIntervals = "-"
+For $i = 1 to UBound($aIntervals, 1)-1
+	$sIntervals &= "|"
+	For $j = 0 to UBound($aIntervals, 2)-1
+		$sIntervals &= $aIntervals[$i][$j]
+		If Not ($j = 2) Then $sIntervals &= "-"
+	Next
+Next
+Global Const $sIntervalsTip = 	GetTranslated(699,46, "Mins-Mins-Num") & @CRLF & _
+								GetTranslated(699,47, "Mins: Minutes - Training Frequency") & @CRLF & _
+								GetTranslated(699,48, "Mins: Minutes - Kicking Frequency") & @CRLF & _
+								GetTranslated(699,49, "Num: Numbers - Members Kicked")
+#endregion
 
 #region SmartZap
 ; GUI variables

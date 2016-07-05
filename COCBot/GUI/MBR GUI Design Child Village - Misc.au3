@@ -39,7 +39,7 @@ Local $x = 15, $y = 45
 			GetTranslated(610,22, "Elixir Full") & "|" & GetTranslated(610,23, "Reach Max. Trophy") & "|" & GetTranslated(610,24, "Dark Elixir Full") & "|" & GetTranslated(610,25, "All Storage (G+E+DE) Full") & "|" & _
 			GetTranslated(610,26, "Bot running for...") & "|" & GetTranslated(610,27, "Now (Train/Donate Only)") & "|" & _
 			GetTranslated(610,28, "Now (Donate Only)") & "|" & GetTranslated(610,29, "Now (Only stay online)") & "|" & GetTranslated(610,30, "W/Shield (Train/Donate Only)") & "|" & GetTranslated(610,31, "W/Shield (Donate Only)") & "|" & _
-			GetTranslated(610,32, "W/Shield (Only stay online)"), GetTranslated(610,27, -1))
+			GetTranslated(610,32, "W/Shield (Only stay online)") & "|" & GetTranslated(699,45, "GTFO (Train/Donate/Kick)"), GetTranslated(610,27, -1)) ; MOD ; MMHK ; GTFO
 			GUICtrlSetOnEvent(-1, "cmbBotCond")
 			GUICtrlSetState (-1, $GUI_DISABLE)
 		$cmbHoursStop = GUICtrlCreateCombo("", $x + 340, $y - 3, 80, 35, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
