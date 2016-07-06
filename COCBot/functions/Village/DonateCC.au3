@@ -53,7 +53,7 @@ Func DonateCC($Check = False)
 
 	Local $y = 90
 
-	If $icmbBotCond <> 22 Then ; MOD ; MMHK ; GTFO
+	If Not $bGTFOEnabled Then ; MOD ; MMHK ; GTFO
 		;check for new chats first
 		If $Check = True Then
 			If _ColorCheck(_GetPixelColor(26, 312 + $midOffsetY, True), Hex(0xf00810, 6), 20) = False And $CommandStop <> 3 Then
@@ -64,7 +64,7 @@ Func DonateCC($Check = False)
 
 	ClickP($aAway, 1, 0, "#0167") ;Click Away
 	Setlog("Checking for Donate Requests in Clan Chat", $COLOR_BLUE)
-	If $icmbBotCond = 22 Then
+	If $bGTFOEnabled Then
 		SetLog("GTFO Intervals - Train: " & $aIntervals[$iCurInterval][0] & " Mins, Kick: " & $aIntervals[$iCurInterval][1] & " Mins, " & $aIntervals[$iCurInterval][2] & " Kicks", $COLOR_FUCHSIA)
 	EndIf
 
@@ -133,6 +133,7 @@ Func DonateCC($Check = False)
 							If $debugsetlog = 1 Then Setlog("Skip donation - checked earlier", $COLOR_PURPLE)
 							_GDIPlus_BitmapDispose($pBitmap1)
 							_GDIPlus_BitmapDispose($hBitmap)
+							FileDelete($dirTemp & $DonateFile)
 							$bDonate = True
 							If $bScrollAllowed Then ; MOD ; MMHK ; GTFO
 								$y = 680
@@ -157,6 +158,7 @@ Func DonateCC($Check = False)
 
 			_GDIPlus_BitmapDispose($pBitmap1)
 			_GDIPlus_BitmapDispose($hBitmap)
+			FileDelete($dirTemp & $DonateFile)
 
 			;Read chat request for DonateTroop and DonateSpell
 			If $bDonateTroop Or $bDonateSpell Then
@@ -414,23 +416,25 @@ Func DonateCC($Check = False)
 		EndIf
 
 		; MOD ; MMHK ; GTFO
-		If $icmbBotCond = 22 And $bScrollAllowed Then SetLog("GTFO Donate Waiting... ", $COLOR_FUCHSIA)
-		If $icmbBotCond = 22 And TimerDiff($hDonateTime) < $iMaxDonateTime Then
-			$bDonate = True
-			$bScrollAllowed = False
-			ClickP($aClanTab, 1, 0, "#0169")
-			If TimerDiff($iRateGTFO) > $iRateGTFOLimit Then
-				ClickP($aClanInfoBtn, 1, 0, "#0470")
+		If $bGTFOEnabled Then
+			If $bScrollAllowed Then SetLog("GTFO Donate Waiting... ", $COLOR_FUCHSIA)
+			If TimerDiff($hDonateTime) < $iMaxDonateTime Then
+				$bDonate = True
+				$bScrollAllowed = False
+				ClickP($aClanTab, 1, 0, "#0169")
+				If TimerDiff($iRateGTFO) > $iRateGTFOLimit Then
+					ClickP($aClanInfoBtn, 1, 0, "#0470")
+					If _Sleep($iDelayDonateCC2) Then ExitLoop
+					GTFO()
+					$iRateGTFO = TimerInit()
+					$bScrollAllowed = True
+				EndIf
+				$y = 90
 				If _Sleep($iDelayDonateCC2) Then ExitLoop
-				GTFO()
-				$iRateGTFO = TimerInit()
-				$bScrollAllowed = True
+				ContinueLoop
 			EndIf
-			$y = 90
-			If _Sleep($iDelayDonateCC2) Then ExitLoop
-			ContinueLoop
+			SetLog("GTFO Go Training... ", $COLOR_FUCHSIA)
 		EndIf
-		If $icmbBotCond = 22 Then SetLog("GTFO Go Training... ", $COLOR_FUCHSIA)
 
 		$bDonate = False
 	WEnd

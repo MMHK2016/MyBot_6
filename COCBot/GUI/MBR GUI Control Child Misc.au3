@@ -133,6 +133,7 @@ Func btnRenameConfirm()
 			SetLog("If you are seeing this log message there is something wrong.", $COLOR_RED)
 	EndSwitch
 EndFunc   ;==>btnRenameConfirm
+
 Func cmbBotCond()
 	If _GUICtrlComboBox_GetCurSel($cmbBotCond) = 15 Then
 		GUICtrlSetData($cmbHoursStop, "")
@@ -157,11 +158,14 @@ Func chkBotStop()
 	If GUICtrlRead($chkBotStop) = $GUI_CHECKED Then
 		GUICtrlSetState($cmbBotCommand, $GUI_ENABLE)
 		GUICtrlSetState($cmbBotCond, $GUI_ENABLE)
+		GUICtrlSetState($cmbHoursStop, $GUI_ENABLE) ; MMHK
 	Else
 		GUICtrlSetState($cmbBotCommand, $GUI_DISABLE)
 		GUICtrlSetState($cmbBotCond, $GUI_DISABLE)
+		GUICtrlSetState($cmbHoursStop, $GUI_DISABLE) ; MMHK
 	EndIf
 EndFunc   ;==>chkBotStop
+
 Func btnLocateBarracks()
 	$RunState = True
 	While 1

@@ -137,7 +137,8 @@ Func smartZap($minDE = -1)
 	Local $aDarkDrills = drillSearch($listPixelByLevel)
 
 	Local $strikeOffsets = [7, 10]
-	Local $drillLvlOffset, $spellAdjust, $numDrills, $testX, $testY, $tempTestX, $tempTestY, $strikeGain, $expectedDE
+;~ 	Local $drillLvlOffset, $spellAdjust, $numDrills, $testX, $testY, $tempTestX, $tempTestY, $strikeGain, $expectedDE
+	Local $drillLvlOffset, $spellAdjust, $numDrills, $bDrillFound, $tempTestX, $tempTestY, $strikeGain, $expectedDE
 	Local $error = 5 ; 5 pixel error margin for DE drill search
 
 	; Get the number of drills
@@ -181,7 +182,6 @@ Func smartZap($minDE = -1)
 			$oldSearchDark = $searchDark
 
 			; If you have max lightning spells, drop lightning on any level DE drill
-
 			If $numSpells > (4 - $spellAdjust) Then
 				SetLog("First condition: " & 4 - $spellAdjust & "+ Spells so attack any drill.", $COLOR_FUCHSIA)
 				zapDrill($eLSpell, $aDarkDrills[0][0] + $strikeOffsets[0], $aDarkDrills[0][1] + $strikeOffsets[1])
@@ -265,9 +265,9 @@ Func smartZap($minDE = -1)
 
 		If $aDarkDrills[0][0] <> -1 Then
 			;Initialize tests.
-			$testX = -1
-			$testY = -1
-
+;~ 			$testX = -1
+;~ 			$testY = -1
+			$bDrillFound = False
 			For $i = 0 To UBound($aDrills) - 1
 				If $aDrills[$i][0] <> -1 Then
 					$tempTestX = Abs($aDrills[$i][0] - $aDarkDrills[0][0])
@@ -277,16 +277,18 @@ Func smartZap($minDE = -1)
 
 					; If the tests are less than error, give pass onto test phase
 					If $tempTestX < $error And $tempTestY < $error Then
-						$testX = $tempTestX
-						$testY = $tempTestY
+;~ 						$testX = $tempTestX
+;~ 						$testY = $tempTestY
+						$bDrillFound = True
 						ExitLoop
 					EndIf
 				EndIf
 			Next
-			If $debugSetLog = 1 Then SetLog("testX: " & $testX & " testY: " & $testY, $COLOR_PURPLE)
+;~ 			If $debugSetLog = 1 Then SetLog("testX: " & $testX & " testY: " & $testY, $COLOR_PURPLE)
 
 			; Test Phase, if test error is greater than expected, or test error is default value.
-			If ($testX > $error Or $testY > $error) And ($testX <> -1 Or $testY <> -1) Then
+;~ 			If ($testX > $error Or $testY > $error) And ($testX <> -1 Or $testY <> -1) Then
+			If Not $bDrillFound Then
 				For $i = 0 To UBound($aDarkDrills, 2) - 1
 					$aDarkDrills[0][$i] = -1
 				Next

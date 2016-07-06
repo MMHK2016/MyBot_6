@@ -1,3 +1,10 @@
+* **V6.1.4.MMHK.v6.6.7**
+ * Fix Smart Zap checking the destroied drill incorrectly
+ * Fix hours combobox not disabled when Halt Attack box checked
+ * Fix GTFO - enabled while Halt Attack unchecked
+ * Fix GTFO - temp req images flooding
+ * Fix GTFO - crash when bot is stopped in the middle of waiting for req; crash when close bot
+
 * **V6.1.4.MMHK.v6.6.2**
  * Upgrade MyBot v6.1.4
  * Add GTFO - Dedicated donation; Kick NEW members donated or received more than 35 or from last page of list; Adjustable frequencies

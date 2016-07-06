@@ -42,6 +42,7 @@ Global $bDonated = False, $bDonLimit = False, $iDonMaxTimes = 2
 
 #region GTFO
 ; GTFO
+Global $bGTFOEnabled
 Global $iCurInterval = 1
 Global Const $aIntervals[25][3] = [	[5,1,1], _
 									[5,1,1], _

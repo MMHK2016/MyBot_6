@@ -71,3 +71,10 @@ $iDonMaxTimes = IniRead($config, "donate", "DonMaxTimes", "2")
 
 ; GTFO
 $iCurInterval = $icmbHoursStop
+
+If $ichkBotStop = 1 And $icmbBotCond = 22 Then
+	$bGTFOEnabled = True
+Else
+	$bGTFOEnabled = False
+EndIf
+

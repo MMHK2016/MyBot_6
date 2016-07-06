@@ -47,7 +47,7 @@ EndIf
 #include "COCBot\MBR Global Variables.au3"
 #include "COCBot\functions\Config\ScreenCoordinates.au3"
 
-$sModVersion = "MMHK v6.6.2" ; MMHK
+$sModVersion = "MMHK v6.6.7" ; MMHK
 $sBotVersion = "v6.1.4" ;~ Don't add more here, but below. Version can't be longer than vX.y.z because it it also use on Checkversion()
 $sBotTitle = "My Bot " & $sBotVersion & " " & $sModVersion & " " ; MMHK ;~ Don't use any non file name supported characters like \ / : * ? " < > |
 
@@ -387,7 +387,7 @@ Func Idle() ;Sequence that runs until Full Army
 
 		While $iReHere < 7
 			$iReHere += 1
-			If $icmbBotCond = 22 Then $iReHere = 100 ; MOD ; MMHK ; GTFO
+			If $bGTFOEnabled Then $iReHere = 100 ; MOD ; MMHK ; GTFO
 			DonateCC(True)
 			If _Sleep($iDelayIdle2) Then ExitLoop
 			If $Restart = True Then ExitLoop
