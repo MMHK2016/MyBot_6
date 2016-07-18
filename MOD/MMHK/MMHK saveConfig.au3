@@ -88,3 +88,10 @@ Else
 EndIf
 
 IniWriteS($config, "donate", "DonMaxTimes", GUICtrlRead($txtDonMaxTimes))
+
+; Upgrade Management
+If GUICtrlRead($chkUpdateNewUpgradesOnly) = $GUI_CHECKED Then
+	IniWriteS($config, "upgrade", "UpdateNewUpgradesOnly", 1)
+Else
+	IniWriteS($config, "upgrade", "UpdateNewUpgradesOnly", 0)
+EndIf

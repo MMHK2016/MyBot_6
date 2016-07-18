@@ -108,3 +108,9 @@ EndIf
 
 GUICtrlSetData($txtDonMaxTimes, $iDonMaxTimes)
 
+; Upgrade Management
+If $bUpdateNewUpgradesOnly = 1 Then
+	GUICtrlSetState($chkUpdateNewUpgradesOnly, $GUI_CHECKED)
+Else
+	GUICtrlSetState($chkUpdateNewUpgradesOnly, $GUI_UNCHECKED)
+EndIf

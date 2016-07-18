@@ -78,3 +78,9 @@ Else
 	$bGTFOEnabled = False
 EndIf
 
+; Upgrade Management
+If IniRead($config, "upgrade", "UpdateNewUpgradesOnly", "0") = 1 Then
+	$bUpdateNewUpgradesOnly = True
+Else
+	$bUpdateNewUpgradesOnly = False
+EndIf

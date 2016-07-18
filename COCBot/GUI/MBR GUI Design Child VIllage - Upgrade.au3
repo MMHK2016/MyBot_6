@@ -125,15 +125,33 @@ GUICtrlCreateTabItem("")
 $hGUI_UPGRADE_TAB_ITEM3 = GUICtrlCreateTabItem(GetTranslated(600,16,"Buildings"))
 	Local $x = 25, $y = 45
 	$grpUpgrade = GUICtrlCreateGroup(GetTranslated(616,1, "Buildings or Heroes"), $x - 20, $y - 15, 430, 30 + ($iUpgradeSlots * 22))
-	$x -= 7
+
+; MOD ; MMHK ; Upgrade Management
+	$y -= 6
+			$txtTip = GetTranslated(699,52, "This button will clear or set the entire column of checkboxes")
+		$chkUpgradeAllOrNone = GUICtrlCreateCheckbox("", $x, $y+3, 13, 13, BitOR($BS_PUSHLIKE, $BS_ICON))
+			GUICtrlSetImage(-1, $pIconLib, $eIcnGoldStar, 0)
+			GUICtrlSetState(-1, $GUI_UNCHECKED)
+			GUICtrlSetTip(-1, $txtTip)
+			GUICtrlSetOnEvent(-1, "chkUpgradeAllOrNone")
+		$chkUpgradeRepeatAllOrNone = GUICtrlCreateCheckbox("", $x+316, $y+3, 13, 13, BitOR($BS_PUSHLIKE, $BS_ICON))
+			GUICtrlSetImage(-1, $pIconLib, $eIcnGoldStar, 0)
+			GUICtrlSetState(-1, $GUI_UNCHECKED)
+			GUICtrlSetTip(-1, $txtTip)
+			GUICtrlSetOnEvent(-1, "chkUpgradeRepeatAllOrNone")
+		$chkUpdateNewUpgradesOnly = GUICtrlCreateCheckbox(GetTranslated(699,50, "New Only"), $x+341 , $y, -1, -1)
+			GUICtrlSetTip(-1,GetTranslated(699,51, "Update NEW upgrades only for speed"))
+			GUICtrlSetOnEvent(-1, "chkUpdateNewUpgradesOnly")
+
 ; table header
-	$y -= 3
+	$x -= 7
+	$y += 3
 		$lblUpgradeUp1 = GUICtrlCreateLabel(GetTranslated(616,2,"Unit Name"), $x+74, $y, 70, 18)
 		$lblUpgradeUp2 = GUICtrlCreateLabel(GetTranslated(616,3,"Lvl"), $x+160, $y, 40, 18)
 		$lblUpgradeUp3 = GUICtrlCreateLabel(GetTranslated(616,4,"Type"), $x+178, $y, 50, 18)
 		$lblUpgradeUp4 = GUICtrlCreateLabel(GetTranslated(616,5,"Cost"), $x+229, $y, 50, 18)
 		$lblUpgradeUp5 = GUICtrlCreateLabel(GetTranslated(616,6,"Time"), $x+280, $y, 50, 18)
-		$lblUpgradeUp6 = GUICtrlCreateLabel(GetTranslated(616,7,"Repeat"), $x+310, $y, 50, 18)
+		;$lblUpgradeUp6 = GUICtrlCreateLabel(GetTranslated(616,7,"Repeat"), $x+310, $y, 50, 18) ; MOD ; MMHK ; Upgrade Management
 
 	$y+=16
 ; Locate/reset buttons
@@ -147,6 +165,21 @@ $hGUI_UPGRADE_TAB_ITEM3 = GUICtrlCreateTabItem(GetTranslated(600,16,"Buildings")
 						GetTranslated(616,13, "If repeat box is checked, data will not be reset")
 			GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetOnEvent(-1, "btnResetUpgrade")
+
+; MOD ; MMHK ; Upgrade Management
+		$btnTop = GUICtrlCreateButton(GetTranslated(699,53, "Top"), $x+347, $y+136, 67, 28, $BS_CENTER)
+			GUICtrlSetTip(-1, GetTranslated(699,54, "Push button to move upgrade-box-checked buildings to the top of the list"))
+			GUICtrlSetOnEvent(-1, "btnTop")
+		$btnUp = GUICtrlCreateButton(GetTranslated(699,55, "Up"), $x+347, $y+168, 67, 28, $BS_CENTER)
+			GUICtrlSetTip(-1, GetTranslated(699,56, "Push button to move up upgrade-box-checked buildings a row"))
+			GUICtrlSetOnEvent(-1, "btnUp")
+		$btnDown = GUICtrlCreateButton(GetTranslated(699,57, "Down"), $x+347, $y+200, 67, 28, $BS_CENTER)
+			GUICtrlSetTip(-1, GetTranslated(699,58, "Push button to move down upgrade-box-checked buildings a row"))
+			GUICtrlSetOnEvent(-1, "btnDown")
+		$btnBottom = GUICtrlCreateButton(GetTranslated(699,59, "Bottom"), $x+347, $y+232, 67, 28, $BS_CENTER)
+			GUICtrlSetTip(-1, GetTranslated(699,60, "Push button to move upgrade-box-checked buildings to the bottom of the list"))
+			GUICtrlSetOnEvent(-1, "btnBottom")
+
 ; Create upgrade GUI slots 0 to $iUpgradeSlots
 ; Can add more slots with $iUpgradeSlots value in Global variables file, 6 is minimum and max limit is 15 before GUI is too long.
 	For $i = 0 To $iUpgradeSlots - 1

@@ -16,7 +16,7 @@
 #ce ===============================================================================================================================
 
 Func GTFO()
-	If $ichkBotStop = 0 Or $icmbBotCond <> 22 Then Return
+	If Not $bGTFOEnabled Then Return
 
 	Local $iKicked = 0, $iMaxKick = $aIntervals[$iCurInterval][2], $iTry, $aMember, $iMaxDon = 0, $iMaxRev = 35 ; set gui later
 	SetLog("GTFO Kick Start... ", $COLOR_FUCHSIA)

@@ -37,3 +37,6 @@
 
 ; GTFO
 #include "functions\Clan.au3"
+
+; Upgrade Management
+#include "functions\UpgradesMgmt.au3"

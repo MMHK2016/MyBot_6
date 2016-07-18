@@ -1,5 +1,13 @@
+* **V6.1.4.MMHK.v6.7.0**
+ * Add Upgrade Management - Option to update only new upgrades and skip existing ones for speed
+ * Add Upgrade Management - Buttons to select all/none for upgrade and repeat checkboxes
+ * Add Upgrade Management - Buttons to move upgrades up/down/top/bottom
+ * Improve GTFO add a 25-21-1 for elders
+ * Fix Warning: Can not find type of Reload error message - Clash Feedback Window
+ * Fix extra spaces in English.ini caused by tooltip strings
+
 * **V6.1.4.MMHK.v6.6.7**
- * Fix Smart Zap checking the destroied drill incorrectly
+ * Fix Smart Zap checking the destroyed drill incorrectly
  * Fix hours combobox not disabled when Halt Attack box checked
  * Fix GTFO - enabled while Halt Attack unchecked
  * Fix GTFO - temp req images flooding
@@ -7,7 +15,7 @@
 
 * **V6.1.4.MMHK.v6.6.2**
  * Upgrade MyBot v6.1.4
- * Add GTFO - Dedicated donation; Kick NEW members donated or received more than 35 or from last page of list; Adjustable frequencies
+ * Add GTFO - Dedicated donation; Kick NEW members donated or received more than 35 or from last page of list; Adjustable frequencies (see tooltip; 5-5-0, 15-15-0 donate only no kick)
  * Improve Smart chat donation - stay at first page wait for new request after scroll
  * Improve Smart chat donation - learning ability, limited saved req images, compare backward
  * Fix Traditional Chinese, Hong Kong system language detection

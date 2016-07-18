@@ -40,6 +40,10 @@ Global $bReqCCFirst = False
 ; Donation limit
 Global $bDonated = False, $bDonLimit = False, $iDonMaxTimes = 2
 
+; Upgrade Management
+Global Const $UP = True, $DOWN = False, $TILL_END = True
+Global $bUpdateNewUpgradesOnly = False
+
 #region GTFO
 ; GTFO
 Global $bGTFOEnabled
@@ -58,7 +62,6 @@ Global Const $aIntervals[25][3] = [	[5,1,1], _
 									[5,5,0], _
 									[15,1,1], _
 									[15,1,2], _
-									[15,1,3], _
 									[15,3,1], _
 									[15,3,2], _
 									[15,3,3], _
@@ -68,7 +71,8 @@ Global Const $aIntervals[25][3] = [	[5,1,1], _
 									[15,10,3], _
 									[15,10,5], _
 									[15,10,10], _
-									[15,15,0]]
+									[15,15,0], _
+									[25,21,1]]
 Global $sIntervals = "-"
 For $i = 1 to UBound($aIntervals, 1)-1
 	$sIntervals &= "|"

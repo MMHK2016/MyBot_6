@@ -108,6 +108,8 @@ Func CheckUpgrades() ; Valdiate and determine the cost and type of the upgrade a
 			ContinueLoop
 		EndIf
 
+		If $bUpdateNewUpgradesOnly And $ichkUpgrdeRepeat[$iz] = 1 Then ContinueLoop ; MOD ; MMHK ; Upgrade Management
+
 		If UpgradeValue($iz) = False Then ; Get the upgrade cost, name, level, and time
 			If $ichkUpgrdeRepeat[$iz] = 1 And $aUpgrades[$iz][4] <> "" Then ContinueLoop ; If repeat is checked and bldg has name, then get value later.
 			Setlog("Locate Upgrade #" & $iz + 1 & " Value Error, try again", $COLOR_RED)
